@@ -1,16 +1,16 @@
 (function(){
 
   window.console = window.console || {log: function() {}};
+
+  window.getQueryParam = function(name) {
+    var match = new RegExp("(\\?|&)" + name + "=([^&]+)").exec(location.search);  
+    return match && decodeURIComponent(match[2]);
+  }
   
   window.getHostJs = function(callback) {
 
-    function queryParam(name) {
-      var match = new RegExp("(\\?|&)" + name + "=([^&]+)").exec(location.search);  
-      return match && decodeURIComponent(match[2]);
-    }
-
-    var path = queryParam("cp");
-    var host = queryParam("xdm_e");
+    var path = getQueryParam("cp");
+    var host = getQueryParam("xdm_e");
 
     if (!(path && host)) {
       console.log("No host / path, not including all.js");

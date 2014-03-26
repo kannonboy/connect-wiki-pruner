@@ -15,16 +15,13 @@
     "generalPages": [
       {
         "key": "space-graph",
-        "url": "/space-graph.html",
-        "icon": {
-          "width": 16,
-          "height": 16,
-          "url": "/troll.png"
-        },
+        "url": "/space-graph.html?spaceKey={space.key}",
+        "location": "system.content.action",
         "name": {
           "value": "Space Graph"
         }
       }
     ]
-  }
+  },
+  "scopes": ["read"]
 }
