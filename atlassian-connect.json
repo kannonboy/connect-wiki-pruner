@@ -2,7 +2,7 @@
   "key": "wiki-pruner",
   "name": "Wiki Pruner",
   "description": "Prune back your Confluence page graph.",
-  "baseUrl": "http://localhost:8000",
+  "baseUrl": "https://kannonboy.github.io/connect-wiki-pruner",
   "vendor": {
     "name": "Atlassian Labs",
     "url": "https://www.atlassian.com"
