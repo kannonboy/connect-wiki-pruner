@@ -63,7 +63,7 @@ getHostJs(function() {
     var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
     var ageDays = ageMs / (1000 * 60 * 60 * 24);
 
-    var ageRatio = Math.min((ageDays / (365 * 2) * 50), 50);
+    var ageRatio = Math.min((ageDays / (365 * 3) * 50), 50);
 
     var border = tinycolor.lighten("#205081", ageRatio);
     var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
