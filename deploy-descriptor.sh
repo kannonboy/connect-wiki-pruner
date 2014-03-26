@@ -1,3 +1,13 @@
+#!/bin/sh
+#
+# Usage: 
+# 
+#     deploy-descriptor.sh <descriptor-url> <product-base-url>
+#
+# Example: 
+#   
+#     deploy-descriptor.sh http://localhost:8000/atlassian-connect.json http://localhost:1990/confluence
+
 descriptorUrl=$1
 host=$2
 
