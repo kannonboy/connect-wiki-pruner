@@ -50,7 +50,8 @@ getHostJs(function() {
         color: {background: "#f6c342", border: "#ffe9a8"}
       },
       page : {
-        shape: "box"
+        shape: "box",
+        color: {background: "#ebf2f9", border: "#3b73af"}
       }
     }
   };
