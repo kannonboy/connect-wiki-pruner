@@ -62,10 +62,10 @@ getHostJs(function() {
     var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
     var ageDays = ageMs / (1000 * 60 * 60 * 24);
 
-    var desaturateAmount = Math.min((ageDays / (365 * 2) * 100), 100);
+    var ageRatio = Math.min((ageDays / (365 * 2) * 100), 100);
 
-    var border = tinycolor.desaturate("#205081", desaturateAmount)
-    var background = tinycolor.desaturate("#3b73af", desaturateAmount);
+    var border = tinycolor.lighten("#205081", ageRatio);
+    var background = tinycolor.lighten("#3b73af", ageRatio);
 
     return {background: background.toHexString(), border: border.toHexString()};
   }
