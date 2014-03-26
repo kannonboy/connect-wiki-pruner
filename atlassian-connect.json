@@ -1,0 +1,31 @@
+{
+  "key": "wiki-pruner",
+  "name": "Wiki Pruner",
+  "description": "Prune back your Confluence page graph.",
+  "baseUrl": "http://localhost:8000",
+  "vendor": {
+    "name": "Atlassian Labs",
+    "url": "https://www.atlassian.com"
+  },
+  "authentication": {
+    "type": "none"
+  },
+  "version": "0.1",
+  "modules": {
+    "generalPages": [
+      {
+        "key": "space-graph",
+        "url": "/space-graph.html",
+        "context": "addon",
+        "icon": {
+          "width": 16,
+          "height": 16,
+          "url": "/troll.png"
+        },
+        "name": {
+          "value": "Space Graph"
+        }
+      }
+    ]
+  }
+}
