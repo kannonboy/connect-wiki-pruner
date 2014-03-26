@@ -47,7 +47,8 @@ getHostJs(function() {
         shape: "star",
         radius: 40,
         radiusMin: 40,
-        color: {background: "#f6c342", border: "#ffe9a8"}
+        color: {background: "#f6c342", border: "#ffe9a8"},
+        fontColor: "#ffffff"
       },
       page : {
         shape: "box",
