@@ -44,10 +44,10 @@ getHostJs(function() {
     },
     groups: {
       space: {
-        shape: star
+        shape: "star"
       },
       page : {
-        shape: box
+        shape: "box"
       }
     }
   };
