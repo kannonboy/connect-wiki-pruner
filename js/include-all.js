@@ -1,22 +1,28 @@
 (function(){
+
+  window.console = window.console || {log: function() {}};
   
-  function queryParam(name) {
-    var match = new RegExp("(\\?|&)" + name + "=([^&]+)").exec(location.search);  
-    return match && decodeURIComponent(match[2]);
-  }
+  window.getHostJs = function(callback) {
 
-  var path = queryParam("cp");
-  var host = queryParam("xdm_e");
+    function queryParam(name) {
+      var match = new RegExp("(\\?|&)" + name + "=([^&]+)").exec(location.search);  
+      return match && decodeURIComponent(match[2]);
+    }
 
-  if (!(path && host)) {
-    console && console.log("No host / path, not including all.js");
-    return;
-  }
+    var path = queryParam("cp");
+    var host = queryParam("xdm_e");
 
-  // TODO validate host is atlassian.net, jira-dev.com, jira.com or localhost
+    if (!(path && host)) {
+      console.log("No host / path, not including all.js");
+      return;
+    }
 
-  var all = $("<script src='" + host + path + "/atlassian-connect/all-debug.js'></script>");
+    // TODO validate host is atlassian.net, jira-dev.com, jira.com or localhost
 
-  $("#its-a-small-world").after(all); // groan
+    $.getScript(host + path + "/atlassian-connect/all-debug.js", function() {
+      callback && callback();
+    });
+
+  };
 
 })();
