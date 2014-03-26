@@ -65,7 +65,7 @@ getHostJs(function() {
     var ageRatio = Math.min((ageDays / (365 * 2) * 100), 100);
 
     var border = tinycolor.lighten("#205081", ageRatio);
-    var background = tinycolor.lighten("#3b73af", ageRatio);
+    var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
 
     return {background: background.toHexString(), border: border.toHexString()};
   }
