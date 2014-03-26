@@ -73,10 +73,11 @@ getHostJs(function() {
       success: function(response) {
         var page = JSON.parse(response);
         var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
+        var ageDays = nowMs / (1000 * 60 * 60 * 24);
 
         spaceGraph.nodesData.add({
           id: page.id, 
-          label: page.title + " " + ageMs, 
+          label: page.title + " " + ageDays, 
           group: "page", 
           color: {background: "#ff0000", border: "#ff0000"}
         });
