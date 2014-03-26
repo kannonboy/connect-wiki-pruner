@@ -10,13 +10,12 @@ getHostJs(function() {
   var spaceNodeId = 0;
 
   var nodes = [
-    {id: spaceNodeId, label: spaceKey}  
+    {id: spaceNodeId, label: spaceKey, group: "space"} 
   ];
 
   var edges = [    
   ];
 
-  // create a graph
   var container = document.getElementById('space-graph');
   var data = {
     nodes: nodes,
@@ -25,7 +24,32 @@ getHostJs(function() {
   
   var options = {
     width: '1200px',
-    height: '600px'
+    height: '600px',
+    physics: {
+        barnesHut: {
+            enabled: true,
+            gravitationalConstant: -2000,
+            centralGravity: 0.1,
+            springLength: 95,
+            springConstant: 0.04,
+            damping: 0.09
+        },
+        repulsion: {
+            centralGravity: 0.1,
+            springLength: 50,
+            springConstant: 0.05,
+            nodeDistance: 200,
+            damping: 0.09
+        }
+    },
+    groups: {
+      space: {
+        shape: star
+      },
+      page : {
+        shape: box
+      }
+    }
   };
 
   window.spaceGraph = new vis.Graph(container, data, options);
@@ -42,7 +66,7 @@ getHostJs(function() {
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children", 
       success: function(response) {
         var page = JSON.parse(response);
-        spaceGraph.nodesData.add({id: page.id, label: page.title});
+        spaceGraph.nodesData.add({id: page.id, label: page.title, group: "page"});
         spaceGraph.edgesData.add({from: parentId, to: page.id});
         for (var i = 0; i < page.children.size; i++) {
           var childPage = page.children.content[i];
