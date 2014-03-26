@@ -44,7 +44,10 @@ getHostJs(function() {
     },
     groups: {
       space: {
-        shape: "star"
+        shape: "star",
+        radius: 40,
+        color.background: "#fffdf6",
+        color.border: "#ffe9a8" 
       },
       page : {
         shape: "box"
