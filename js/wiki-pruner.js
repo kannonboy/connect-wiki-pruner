@@ -70,7 +70,12 @@ getHostJs(function() {
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children", 
       success: function(response) {
         var page = JSON.parse(response);
-        spaceGraph.nodesData.add({id: page.id, label: page.title, group: "page"});
+        spaceGraph.nodesData.add({
+          id: page.id, 
+          label: page.title, 
+          group: "page", 
+          color: {background: "#ff0000", border: "#ff0000"}
+        });
         spaceGraph.edgesData.add({from: parentId, to: page.id});
         for (var i = 0; i < page.children.size; i++) {
           var childPage = page.children.content[i];
