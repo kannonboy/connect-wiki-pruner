@@ -64,8 +64,8 @@ getHostJs(function() {
 
     var desaturateAmount = Math.min((ageDays / (365 * 2) * 100), 100);
 
-    var border = tinycolor.desaturate("#3b73af", desaturateAmount)
-    var background = tinycolor.desaturate("#ebf2f9", desaturateAmount);
+    var border = tinycolor.desaturate("#205081", desaturateAmount)
+    var background = tinycolor.desaturate("#3b73af", desaturateAmount);
 
     return {background: background.toHexString(), border: border.toHexString()};
   }
