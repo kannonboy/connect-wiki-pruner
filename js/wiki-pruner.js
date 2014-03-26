@@ -47,12 +47,12 @@ getHostJs(function() {
         shape: "star",
         radius: 40,
         radiusMin: 40,
-        color: {background: "#f6c342", border: "#ffe9a8"},
-        fontColor: "#ffffff"
+        color: {background: "#f6c342", border: "#ffe9a8"}        
       },
       page : {
         shape: "box",
-        color: {background: "#ebf2f9", border: "#3b73af"}
+        color: {background: "#ebf2f9", border: "#3b73af"},
+        fontColor: "#ffffff"
       }
     }
   };
