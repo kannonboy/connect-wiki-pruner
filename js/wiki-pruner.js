@@ -56,6 +56,8 @@ getHostJs(function() {
     }
   };
 
+  var nowMs = new Date().getTime();
+
   window.spaceGraph = new vis.Graph(container, data, options);
   
   function crawlSpace(space) {
@@ -70,9 +72,11 @@ getHostJs(function() {
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children", 
       success: function(response) {
         var page = JSON.parse(response);
+        var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
+
         spaceGraph.nodesData.add({
           id: page.id, 
-          label: page.title, 
+          label: page.title + " " + ageMs, 
           group: "page", 
           color: {background: "#ff0000", border: "#ff0000"}
         });
