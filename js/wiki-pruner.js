@@ -58,6 +58,18 @@ getHostJs(function() {
 
   var nowMs = new Date().getTime();
 
+  function generateColor(page) {
+    var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
+    var ageDays = ageMs / (1000 * 60 * 60 * 24);
+
+    var desaturateAmount = Math.min((ageDays / (365 * 2) * 100), 100);
+
+    var border = tinycolor.desaturate("#ffe9a8", desaturateAmount)
+    var background = tinycolor.desaturate("#f6c342", desaturateAmount);
+
+    return {background: background.toHexString(), border: border.toHexString()};
+  }
+
   window.spaceGraph = new vis.Graph(container, data, options);
   
   function crawlSpace(space) {
@@ -71,15 +83,12 @@ getHostJs(function() {
     AP.request({
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children", 
       success: function(response) {
-        var page = JSON.parse(response);
-        var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
-        var ageDays = ageMs / (1000 * 60 * 60 * 24);
-
+        var page = JSON.parse(response);        
         spaceGraph.nodesData.add({
           id: page.id, 
-          label: page.title + " " + ageDays, 
+          label: page.title, 
           group: "page", 
-          color: {background: "#ff0000", border: "#ff0000"}
+          color: generateColor(page)
         });
         spaceGraph.edgesData.add({from: parentId, to: page.id});
         for (var i = 0; i < page.children.size; i++) {
