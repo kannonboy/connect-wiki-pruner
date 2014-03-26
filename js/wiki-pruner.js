@@ -1,6 +1,12 @@
 getHostJs(function() {
 
   var spaceKey = getQueryParam("spaceKey");
+
+  if (!spaceKey) {
+    console.log("No spaceKey query parameter, bailing out.");
+    return;
+  }
+
   var spaceNodeId = 0;
 
   var nodes = [
@@ -47,7 +53,7 @@ getHostJs(function() {
   }  
 
   AP.request({
-    url: "/rest/prototype/1/space/TS.json?expand=rootpages", 
+    url: "/rest/prototype/1/space/" + spaceKey + ".json?expand=rootpages", 
     success: function(response) {
       crawlSpace(JSON.parse(response));
     }
