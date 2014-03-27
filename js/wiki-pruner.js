@@ -22,9 +22,11 @@ getHostJs(function() {
     edges: edges
   };
   
+  var $window = $(window);
+
   var options = {
-    width: '1200px',
-    height: '600px',
+    width: $window.width + 'px',
+    height: $window.height + 'px',
     physics: {
         barnesHut: {
             enabled: true,
