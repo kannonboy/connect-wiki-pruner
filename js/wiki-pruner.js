@@ -22,10 +22,10 @@ getHostJs(function() {
     edges: edges
   };
 
-  var sideBarWidth = 300;
+  var $sidebar = $("#space-graph-sidebar");
 
   var options = {
-    width: ($(window).width() - sideBarWidth) + 'px',
+    width: ($(window).width() - $sidebar.width()) + 'px',
     height: '800px',
     physics: {
         barnesHut: {
