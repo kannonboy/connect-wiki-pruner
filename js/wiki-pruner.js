@@ -21,13 +21,11 @@ getHostJs(function() {
     nodes: nodes,
     edges: edges
   };
-  
-  var $document = $(document);
 
   var sideBarWidth = 300;
 
   var options = {
-    width: ($document.width - sideBarWidth) + 'px',
+    width: ($(window.parent).width() - sideBarWidth) + 'px',
     height: '800px',
     physics: {
         barnesHut: {
