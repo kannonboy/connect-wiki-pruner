@@ -23,9 +23,10 @@ getHostJs(function() {
   };
 
   var $sidebar = $("#space-graph-sidebar");
+  var sidebarWidth = 300;
 
   var options = {
-    width: ($(window).width() - $sidebar.width()) + 'px',
+    width: ($(window).width() - sidebarWidth) + 'px',
     height: '800px',
     physics: {
         barnesHut: {
