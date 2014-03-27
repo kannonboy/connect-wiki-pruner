@@ -22,12 +22,12 @@ getHostJs(function() {
     edges: edges
   };
   
-  var $window = $(window);
+  var $document = $(document);
 
   var sideBarWidth = 300;
 
   var options = {
-    width: ($window.width - sideBarWidth) + 'px',
+    width: ($document.width - sideBarWidth) + 'px',
     height: '800px',
     physics: {
         barnesHut: {
