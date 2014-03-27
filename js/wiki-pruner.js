@@ -26,7 +26,7 @@ getHostJs(function() {
 
   var options = {
     width: $window.width + 'px',
-    height: $window.height + 'px',
+    height: '1200px',
     physics: {
         barnesHut: {
             enabled: true,
