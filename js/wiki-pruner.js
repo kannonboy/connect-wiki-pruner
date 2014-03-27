@@ -25,6 +25,9 @@ getHostJs(function() {
   var $sidebar = $("#space-graph-sidebar");
   var sidebarWidth = 300;
 
+  var $nodeTitle = $(".node-title");
+  var $nodeDescription = $(".node-description");
+
   var options = {
     width: ($(window).width() - sidebarWidth) + 'px',
     height: '800px',
@@ -90,6 +93,7 @@ getHostJs(function() {
   function crawlSpace(space) {
     for (var i = 0; i < space.rootpages.size; i++) {
       var page = space.rootpages.content[i];
+      $nodeTitle.text(space.name);
       crawlPage(page.id, spaceNodeId);
     }
   }
