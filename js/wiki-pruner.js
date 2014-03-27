@@ -24,8 +24,10 @@ getHostJs(function() {
   
   var $window = $(window);
 
+  var sideBarWidth = 300;
+
   var options = {
-    width: $window.width + 'px',
+    width: ($window.width - sideBarWidth) + 'px',
     height: '800px',
     physics: {
         barnesHut: {
