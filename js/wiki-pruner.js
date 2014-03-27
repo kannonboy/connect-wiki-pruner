@@ -29,7 +29,7 @@ getHostJs(function() {
   var $nodeDescription = $(".node-description");
 
   var options = {
-    width: ($(window).width() - sidebarWidth) + 'px',
+    width: $(window).width() + 'px',
     height: '800px',
     physics: {
         barnesHut: {
