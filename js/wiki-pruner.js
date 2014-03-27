@@ -59,7 +59,7 @@ getHostJs(function() {
 
   var nowMs = new Date().getTime();
 
-  function generateColor(page) {
+  function generateNode(page) {
     var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
     var ageDays = ageMs / (1000 * 60 * 60 * 24);
 
@@ -68,7 +68,16 @@ getHostJs(function() {
     var border = tinycolor.lighten("#205081", ageRatio);
     var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
 
-    return {background: background.toHexString(), border: border.toHexString()};
+    return {
+        id: page.id, 
+        label: page.title, 
+        group: "page", 
+        color: {
+          background: background.toHexString(), 
+          border: border.toHexString()
+        };
+        fontColor: ageRatio > 25 ? "#000000" : "#ffffff";
+    }
   }
 
   window.spaceGraph = new vis.Graph(container, data, options);
@@ -84,13 +93,8 @@ getHostJs(function() {
     AP.request({
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children", 
       success: function(response) {
-        var page = JSON.parse(response);        
-        spaceGraph.nodesData.add({
-          id: page.id, 
-          label: page.title, 
-          group: "page", 
-          color: generateColor(page)
-        });
+        var page = JSON.parse(response);
+        spaceGraph.nodesData.add(generateNode(page));
         spaceGraph.edgesData.add({from: parentId, to: page.id});
         for (var i = 0; i < page.children.size; i++) {
           var childPage = page.children.content[i];
