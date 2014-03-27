@@ -27,6 +27,7 @@ getHostJs(function() {
   var options = {
     width: $window.width + 'px',
     height: '800px',
+    hierarchicalLayout: true,
     physics: {
         barnesHut: {
             enabled: true,
