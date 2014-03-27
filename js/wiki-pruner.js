@@ -75,7 +75,7 @@ getHostJs(function() {
         color: {
           background: background.toHexString(), 
           border: border.toHexString()
-        };
+        },
         fontColor: ageRatio > 25 ? "#000000" : "#ffffff";
     }
   }
