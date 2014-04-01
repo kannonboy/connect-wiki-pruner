@@ -90,9 +90,16 @@ getHostJs(function() {
 
   window.spaceGraph = new vis.Graph(container, data, options);
 
-  window.spaceGraph.on('select', function(properties) {
-    console.log(properties.nodes);
-  })
+  window.spaceGraph.on('select', function(selected) {
+    if (selected.nodes.length === 0) {
+      // nothing
+    } else if (selected.nodes.length === 1) {
+      var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);
+      $("#node-title").text(selectedNode.label);
+    } else {
+      $("#node-title").text(selected.nodes.length + " nodes");
+    }
+  });
   
   function crawlSpace(space) {
     for (var i = 0; i < space.rootpages.size; i++) {
