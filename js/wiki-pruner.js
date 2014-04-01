@@ -91,7 +91,7 @@ getHostJs(function() {
   window.spaceGraph = new vis.Graph(container, data, options);
 
   window.spaceGraph.on('select', function(properties) {
-    console.log(properties.noes);
+    console.log(properties.nodes);
   })
   
   function crawlSpace(space) {
