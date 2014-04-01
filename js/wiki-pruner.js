@@ -95,9 +95,9 @@ getHostJs(function() {
       // nothing
     } else if (selected.nodes.length === 1) {
       var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);
-      $("#node-title").text(selectedNode.label);
+      $(".node-title").text(selectedNode.label);
     } else {
-      $("#node-title").text(selected.nodes.length + " nodes");
+      $(".node-title").text(selected.nodes.length + " nodes");
     }
   });
   
