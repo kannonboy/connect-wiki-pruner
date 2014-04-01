@@ -89,6 +89,10 @@ getHostJs(function() {
   }
 
   window.spaceGraph = new vis.Graph(container, data, options);
+
+  window.spaceGraph.on('select', function(properties) {
+    console.log(properties.noes);
+  })
   
   function crawlSpace(space) {
     for (var i = 0; i < space.rootpages.size; i++) {
