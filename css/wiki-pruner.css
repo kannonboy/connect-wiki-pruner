@@ -13,6 +13,7 @@
 .controls .control {
   font-weight: bold;
   cursor: pointer;
+  display: block;
 }
 
 #space-graph {
