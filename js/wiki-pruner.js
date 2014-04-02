@@ -73,7 +73,7 @@ getHostJs(function() {
 
   function daysSince(date) {
     var msSince = nowMs - new Date(date).getTime();
-    return Math.floor(ageMs / (1000 * 60 * 60 * 24));
+    return Math.floor(msSince / (1000 * 60 * 60 * 24));
   }
 
   function generateNode(page) {
