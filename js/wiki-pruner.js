@@ -73,7 +73,7 @@ getHostJs(function() {
 
   function generateNode(page) {
     var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
-    var ageDays = ageMs / (1000 * 60 * 60 * 24);
+    var ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
 
     var ageDays = Math.max(ageDays - 90, 0); // consider the last 90 days as fresh
 
@@ -104,7 +104,7 @@ getHostJs(function() {
     } else if (selected.nodes.length === 1) {
       var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);      
       $(".node-title").text(selectedNode.label);
-      $(".node-age").text(selectedNode.ageDays + " days ago");
+      $(".node-age").text(selectedNode.ageDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
 
       $sidebar.show();
       $multiNode.hide();
