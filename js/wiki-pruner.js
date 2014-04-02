@@ -97,7 +97,7 @@ getHostJs(function() {
         updatedDays: ageDays,
         updatedBy: page.lastModifier,
         createdDays: daysSince(page.createdDate.date),
-        creator: page.creator
+        createdBy: page.creator
     }
   }
 
@@ -111,9 +111,9 @@ getHostJs(function() {
       var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);      
       $nodeTitle.text(selectedNode.label);
       $nodeUpdated.text(selectedNode.updatedDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
-      $nodeUpdatedBy.text(selectedNode.updatedBy.displayName);
+      $nodeUpdatedBy.text(selectedNode.updatedBy ? selectedNode.updatedBy.displayName : "Anon");
       $nodeCreated.text(selectedNode.createdDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
-      $nodeCreatedBy.text(selectedNode.createdBy.displayName);
+      $nodeCreatedBy.text(selectedNode.createdBy  ? selectedNode.createdBy.displayName : "Anon");
 
       $sidebar.show();
       $multiNode.hide();
