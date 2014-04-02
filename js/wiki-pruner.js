@@ -23,7 +23,13 @@ getHostJs(function() {
   };
 
   var $sidebar = $("#space-graph-sidebar");
-  var sidebarWidth = 300;
+  $sidebar.hide();
+
+  var $singleNode = $(".single-node");
+  var $multiNode = $(".multi-node");
+
+  var $nodeTitle = $(".node-title");
+  var $nodeAge = $(".node-age");
 
   var $nodeTitle = $(".node-title");
   var $nodeDescription = $(".node-description");
@@ -84,7 +90,8 @@ getHostJs(function() {
           background: background.toHexString(), 
           border: border.toHexString()
         },
-        fontColor: ageRatio > 30 ? "#000000" : "#ffffff"
+        fontColor: ageRatio > 30 ? "#000000" : "#ffffff",
+        ageDays: ageDays
     }
   }
 
@@ -93,11 +100,21 @@ getHostJs(function() {
   window.spaceGraph.on('select', function(selected) {
     if (selected.nodes.length === 0) {
       // nothing
+      $sidebar.hide();
     } else if (selected.nodes.length === 1) {
-      var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);
+      var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);      
       $(".node-title").text(selectedNode.label);
+      $(".node-age").text(selectedNode.ageDays + " days ago");
+
+      $sidebar.show();
+      $multiNode.hide();
+      $singleNode.show();      
     } else {
-      $(".node-title").text(selected.nodes.length + " nodes");
+      $(".node-title").text(selected.nodes.length + " pages");
+      
+      $sidebar.show();
+      $multiNode.show();
+      $singleNode.hide();      
     }
   });
   
