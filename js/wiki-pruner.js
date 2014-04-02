@@ -71,13 +71,16 @@ getHostJs(function() {
 
   var nowMs = new Date().getTime();
 
+  function daysSince(date) {
+    var msSince = nowMs - new Date(date).getTime();
+    return Math.floor(ageMs / (1000 * 60 * 60 * 24));
+  }
+
   function generateNode(page) {
-    var ageMs = nowMs - new Date(page.lastModifiedDate.date).getTime();
-    var ageDays = Math.floor(ageMs / (1000 * 60 * 60 * 24));
+    var ageDays = daysSince(page.lastModifiedDate.date);
 
-    var ageDays = Math.max(ageDays - 90, 0); // consider the last 90 days as fresh
-
-    var ageRatio = Math.min((ageDays / (365 * 3) * 50), 50); // decay for the previous 36 months 
+    var adjustedAgeDays = Math.max(ageDays - 90, 0); // consider the last 90 days as fresh
+    var ageRatio = Math.min((adjustedAgeDays / (365 * 3) * 50), 50); // decay for the previous 36 months 
 
     var border = tinycolor.lighten("#205081", ageRatio);
     var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
@@ -91,7 +94,8 @@ getHostJs(function() {
           border: border.toHexString()
         },
         fontColor: ageRatio > 30 ? "#000000" : "#ffffff",
-        ageDays: ageDays
+        ageDays: ageDays,
+        createdDays: daysSince(page.createdData.date)
     }
   }
 
