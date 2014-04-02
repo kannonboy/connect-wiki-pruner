@@ -29,10 +29,10 @@ getHostJs(function() {
   var $multiNode = $(".multi-node");
 
   var $nodeTitle = $(".node-title");
-  var $nodeAge = $(".node-age");
-
-  var $nodeTitle = $(".node-title");
-  var $nodeDescription = $(".node-description");
+  var $nodeUpdated = $(".node-updated");
+  var $nodeUpdatedBy = $(".node-updated-by");
+  var $nodeCreated = $(".node-created");
+  var $nodeCreatedBy = $(".node-created-by");  
 
   var options = {
     width: $(window).width() + 'px',
@@ -94,8 +94,10 @@ getHostJs(function() {
           border: border.toHexString()
         },
         fontColor: ageRatio > 30 ? "#000000" : "#ffffff",
-        ageDays: ageDays,
-        createdDays: daysSince(page.createdData.date)
+        updatedDays: ageDays,
+        updatedBy: page.lastModifier,
+        createdDays: daysSince(page.createdDate.date),
+        creator: page.creator
     }
   }
 
@@ -107,14 +109,17 @@ getHostJs(function() {
       $sidebar.hide();
     } else if (selected.nodes.length === 1) {
       var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);      
-      $(".node-title").text(selectedNode.label);
-      $(".node-age").text(selectedNode.ageDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
+      $nodeTitle.text(selectedNode.label);
+      $nodeUpdated.text(selectedNode.updatedDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
+      $nodeUpdatedBy.text(selectedNode.updatedBy.displayName);
+      $nodeCreated.text(selectedNode.createdDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
+      $nodeCreatedBy.text(selectedNode.createdBy.displayName);
 
       $sidebar.show();
       $multiNode.hide();
       $singleNode.show();      
     } else {
-      $(".node-title").text(selected.nodes.length + " pages");
+      $nodeTitle.text(selected.nodes.length + " pages");
       
       $sidebar.show();
       $multiNode.show();
