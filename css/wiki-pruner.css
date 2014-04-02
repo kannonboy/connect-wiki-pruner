@@ -10,6 +10,11 @@
   border-radius: 6px;
 }
 
+.controls .control {
+  font-weight: bold;
+  cursor: pointer;
+}
+
 #space-graph {
   
 }
