@@ -2,48 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=EDGE">  
+  <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/aui/5.4.3/aui/css/aui.css" media="all">
   <link rel="stylesheet" href="lib/vis/vis.css">
-  <link rel="stylesheet" href="css/wiki-pruner.css">   
+  <link rel="stylesheet" href="css/wiki-pruner.css">
 </head>
 <body>
+<section>
   <section>
-    <section>
-      <div id="space-graph-sidebar">
-        <section class="single-node">
-          <h2 class="node-title"></h2>
-          <section>
-            <label>Created: <span class="node-created"></span></label>
-            <label>by <span class="node-created-by"></span></label>
-          </section>
-          <section>
-            <label>Last updated: <span class="node-updated"></span></label>
-            <label>by <span class="node-updated-by"></span></label>
-          </section>          
+    <div id="space-graph-sidebar">
+      <section class="single-node">
+        <h2 class="node-title"></h2>
+        <section>
+          <label>Created: <span class="node-created"></span></label>
+          <label>by <span class="node-created-by"></span></label>
         </section>
-        <section class="multi-node">
-          <h2 class="node-title"></h2>
+        <section>
+          <label>Last updated: <span class="node-updated"></span></label>
+          <label>by <span class="node-updated-by"></span></label>
         </section>
-        <section class="controls">
-            <span class="control move-page">Move it!</span>
-            <span class="control delete-page">Delete it!</span>
-            <span class="control archive-page">Archive it!</span>
-        </section>
+      </section>
+      <section class="multi-node">
+        <h2 class="node-title"></h2>
+      </section>
+      <section class="controls">
+        <span class="control move-page">Move it!</span>
+        <span class="control delete-page">Delete it!</span>
+        <span class="control archive-page">Archive it!</span>
+      </section>
+    </div>
+    <div id="space-graph-message-container">
+      <div id="space-graph-message">
+        This is not a test, of the emergency broadcast system.
       </div>
-      <div id="space-graph-message-container">
-          <div id="space-graph-message">
-              This is not a test, of the emergency broadcast system.
-          </div>
-      </div>
-      <div id="space-graph"></div>
-    </section>
+    </div>
+    <div id="space-graph"></div>
   </section>
+</section>
 
-  <script src="lib/vis/vis.js"></script>
-  <script src="lib/jquery/jquery-1.11.0.js"></script>  
-  <script src="lib/tinycolor/tinycolor-min.js"></script>  
-  <script src="js/include-all.js"></script>  
-  <script src="js/wiki-pruner.js"></script>  
+<script src="lib/vis/vis.js"></script>
+<script src="lib/jquery/jquery-1.11.0.js"></script>
+<script src="lib/tinycolor/tinycolor-min.js"></script>
+<script src="js/include-all.js"></script>
+<script src="js/wiki-pruner.js"></script>
 </body>
 </html>

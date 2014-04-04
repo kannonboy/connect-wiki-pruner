@@ -1,8 +1,10 @@
-getHostJs(function() {
+getHostJs(function ()
+{
 
   var spaceKey = getQueryParam("spaceKey");
 
-  if (!spaceKey) {
+  if (!spaceKey)
+  {
     console.log("No spaceKey query parameter, bailing out.");
     return;
   }
@@ -10,10 +12,10 @@ getHostJs(function() {
   var spaceNodeId = 0;
 
   var nodes = [
-    {id: spaceNodeId, label: spaceKey, group: "space"} 
+    {id: spaceNodeId, label: spaceKey, group: "space"}
   ];
 
-  var edges = [    
+  var edges = [
   ];
 
   var container = document.getElementById('space-graph');
@@ -32,36 +34,36 @@ getHostJs(function() {
   var $nodeUpdated = $(".node-updated");
   var $nodeUpdatedBy = $(".node-updated-by");
   var $nodeCreated = $(".node-created");
-  var $nodeCreatedBy = $(".node-created-by");  
+  var $nodeCreatedBy = $(".node-created-by");
 
   var options = {
     width: $(window).width() + 'px',
     height: '800px',
     physics: {
-        barnesHut: {
-            enabled: true,
-            gravitationalConstant: -2000,
-            centralGravity: 0.1,
-            springLength: 95,
-            springConstant: 0.04,
-            damping: 0.09
-        },
-        repulsion: {
-            centralGravity: 0.1,
-            springLength: 50,
-            springConstant: 0.05,
-            nodeDistance: 200,
-            damping: 0.09
-        }
+      barnesHut: {
+        enabled: true,
+        gravitationalConstant: -2000,
+        centralGravity: 0.1,
+        springLength: 95,
+        springConstant: 0.04,
+        damping: 0.09
+      },
+      repulsion: {
+        centralGravity: 0.1,
+        springLength: 50,
+        springConstant: 0.05,
+        nodeDistance: 200,
+        damping: 0.09
+      }
     },
     groups: {
       space: {
         shape: "star",
         radius: 40,
         radiusMin: 40,
-        color: {background: "#f6c342", border: "#ffe9a8"}        
+        color: {background: "#f6c342", border: "#ffe9a8"}
       },
-      page : {
+      page: {
         shape: "box",
         color: {background: "#ebf2f9", border: "#3b73af"},
         fontColor: "#ffffff"
@@ -71,12 +73,14 @@ getHostJs(function() {
 
   var nowMs = new Date().getTime();
 
-  function daysSince(date) {
+  function daysSince(date)
+  {
     var msSince = nowMs - new Date(date).getTime();
     return Math.floor(msSince / (1000 * 60 * 60 * 24));
   }
 
-  function generateNode(page) {
+  function generateNode(page)
+  {
     var ageDays = daysSince(page.lastModifiedDate.date);
 
     var adjustedAgeDays = Math.max(ageDays - 90, 0); // consider the last 90 days as fresh
@@ -86,73 +90,85 @@ getHostJs(function() {
     var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
 
     return {
-        id: page.id, 
-        label: page.title, 
-        group: "page", 
-        color: {
-          background: background.toHexString(), 
-          border: border.toHexString()
-        },
-        fontColor: ageRatio > 30 ? "#000000" : "#ffffff",
-        updatedDays: ageDays,
-        updatedBy: page.lastModifier,
-        createdDays: daysSince(page.createdDate.date),
-        createdBy: page.creator
+      id: page.id,
+      label: page.title,
+      group: "page",
+      color: {
+        background: background.toHexString(),
+        border: border.toHexString()
+      },
+      fontColor: ageRatio > 30 ? "#000000" : "#ffffff",
+      updatedDays: ageDays,
+      updatedBy: page.lastModifier,
+      createdDays: daysSince(page.createdDate.date),
+      createdBy: page.creator
     }
   }
 
   window.spaceGraph = new vis.Graph(container, data, options);
 
-  window.spaceGraph.on('select', function(selected) {
-    if (selected.nodes.length === 0) {
+  window.spaceGraph.on('select', function (selected)
+  {
+    if (selected.nodes.length === 0)
+    {
       // nothing
       $sidebar.hide();
-    } else if (selected.nodes.length === 1) {
-      var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);      
+    }
+    else if (selected.nodes.length === 1)
+    {
+      var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);
       $nodeTitle.text(selectedNode.label);
       $nodeUpdated.text(selectedNode.updatedDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
       $nodeUpdatedBy.text(selectedNode.updatedBy ? selectedNode.updatedBy.displayName : "Anon");
       $nodeCreated.text(selectedNode.createdDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
-      $nodeCreatedBy.text(selectedNode.createdBy  ? selectedNode.createdBy.displayName : "Anon");
+      $nodeCreatedBy.text(selectedNode.createdBy ? selectedNode.createdBy.displayName : "Anon");
 
       $sidebar.show();
       $multiNode.hide();
-      $singleNode.show();      
-    } else {
+      $singleNode.show();
+    }
+    else
+    {
       $nodeTitle.text(selected.nodes.length + " pages");
-      
+
       $sidebar.show();
       $multiNode.show();
-      $singleNode.hide();      
+      $singleNode.hide();
     }
   });
-  
-  function crawlSpace(space) {
-    for (var i = 0; i < space.rootpages.size; i++) {
+
+  function crawlSpace(space)
+  {
+    for (var i = 0; i < space.rootpages.size; i++)
+    {
       var page = space.rootpages.content[i];
       $nodeTitle.text(space.name);
       crawlPage(page.id, spaceNodeId);
     }
   }
 
-  function crawlPage(pageId, parentId) {    
+  function crawlPage(pageId, parentId)
+  {
     AP.request({
-      url: "/rest/prototype/1/content/" + pageId + ".json?expand=children", 
-      success: function(response) {
+      url: "/rest/prototype/1/content/" + pageId + ".json?expand=children",
+      success: function (response)
+      {
         var page = JSON.parse(response);
         spaceGraph.nodesData.add(generateNode(page));
         spaceGraph.edgesData.add({from: parentId, to: page.id});
-        for (var i = 0; i < page.children.size; i++) {
+        for (var i = 0; i < page.children.size; i++)
+        {
           var childPage = page.children.content[i];
           crawlPage(childPage.id, pageId);
-        }        
+        }
       }
     });
-  }  
+  }
 
   AP.request({
-    url: "/rest/prototype/1/space/" + spaceKey + ".json?expand=rootpages", 
-    success: function(response) {
+    url: "/rest/prototype/1/space/" + spaceKey + ".json?expand=rootpages",
+    success: function (response)
+    {
       crawlSpace(JSON.parse(response));
     }
   });

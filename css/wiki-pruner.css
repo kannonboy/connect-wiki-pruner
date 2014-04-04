@@ -1,31 +1,31 @@
 #space-graph-sidebar {
   position: absolute;
   right: 10px;
-  top: 10px;  
+  top: 10px;
   width: 300px;
   padding-left: 6px;
   padding-right: 6px;
-  background-color: rgba(255,255,255,.75);
+  background-color: rgba(255, 255, 255, .75);
   z-index: 100;
   border-radius: 6px;
 }
 
 #space-graph-message-container {
-    position: absolute;
-    bottom: 20%;
-    width: 100%;
-    text-align: center;
-    z-index: 100;
+  position: absolute;
+  bottom: 20%;
+  width: 100%;
+  text-align: center;
+  z-index: 100;
 }
 
 #space-graph-message {
-    height: 30px;
-    display: inline-block;
-    line-height: 30px;
-    padding: 10px 20px 10px 20px;
-    background-color: rgba(255,255,255,.75);
-    font-size: 30px;
-    border-radius: 6px;
+  height: 30px;
+  display: inline-block;
+  line-height: 30px;
+  padding: 10px 20px 10px 20px;
+  background-color: rgba(255, 255, 255, .75);
+  font-size: 30px;
+  border-radius: 6px;
 }
 
 .controls {
@@ -39,5 +39,5 @@
 }
 
 #space-graph {
-  
+
 }
