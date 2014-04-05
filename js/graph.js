@@ -1,5 +1,7 @@
 ALL.getHostJs(function ()
 {
+  window.GRAPH = window.GRAPH || {};
+
   var spaceKey = URI.getQueryParam("spaceKey");
 
   if (!spaceKey)
@@ -92,27 +94,27 @@ ALL.getHostJs(function ()
     }
   }
 
-  window.spaceGraph = new vis.Graph(container, data, options);
+  var graph = window.GRAPH.graph = new vis.Graph(container, data, options);
 
-  window.spaceGraph.on('select', function (selected)
+  graph.on('select', function (selected)
   {
     if (selected.nodes.length === 0)
     {
       // nothing
-      window.UI.clearGraphPanel();
+      UI.clearGraphPanel();
     }
     else if (selected.nodes.length === 1)
     {
-      var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);
-      window.UI.displayPage(selectedNode);
+      var selectedNode = graph.nodesData.get(selected.nodes[0]);
+      UI.displayPage(selectedNode);
     }
     else
     {
       var selectedNodes = [];
       for (var i = 0; i < selected.nodes.length; i++) {
-        selectedNodes.push(spaceGraph.nodesData.get(selected.nodes[0]));
+        selectedNodes.push(graph.nodesData.get(selected.nodes[0]));
       }
-      window.UI.displayPages(selectedNodes);
+      UI.displayPages(selectedNodes);
     }
   });
 
@@ -132,8 +134,8 @@ ALL.getHostJs(function ()
       success: function (response)
       {
         var page = JSON.parse(response);
-        spaceGraph.nodesData.add(generateNode(page));
-        spaceGraph.edgesData.add({from: parentId, to: page.id});
+        graph.nodesData.add(generateNode(page));
+        graph.edgesData.add({from: parentId, to: page.id});
         for (var i = 0; i < page.children.size; i++)
         {
           var childPage = page.children.content[i];
