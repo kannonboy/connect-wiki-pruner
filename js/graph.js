@@ -1,7 +1,6 @@
-getHostJs(function ()
+ALL.getHostJs(function ()
 {
-
-  var spaceKey = getQueryParam("spaceKey");
+  var spaceKey = URI.getQueryParam("spaceKey");
 
   if (!spaceKey)
   {
@@ -23,18 +22,6 @@ getHostJs(function ()
     nodes: nodes,
     edges: edges
   };
-
-  var $sidebar = $("#space-graph-sidebar");
-  $sidebar.hide();
-
-  var $singleNode = $(".single-node");
-  var $multiNode = $(".multi-node");
-
-  var $nodeTitle = $(".node-title");
-  var $nodeUpdated = $(".node-updated");
-  var $nodeUpdatedBy = $(".node-updated-by");
-  var $nodeCreated = $(".node-created");
-  var $nodeCreatedBy = $(".node-created-by");
 
   var options = {
     width: $(window).width() + 'px',
@@ -112,28 +99,20 @@ getHostJs(function ()
     if (selected.nodes.length === 0)
     {
       // nothing
-      $sidebar.hide();
+      window.UI.clearGraphPanel();
     }
     else if (selected.nodes.length === 1)
     {
       var selectedNode = spaceGraph.nodesData.get(selected.nodes[0]);
-      $nodeTitle.text(selectedNode.label);
-      $nodeUpdated.text(selectedNode.updatedDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
-      $nodeUpdatedBy.text(selectedNode.updatedBy ? selectedNode.updatedBy.displayName : "Anon");
-      $nodeCreated.text(selectedNode.createdDays + " " + (selectedNode.ageDays === 1 ? "day" : "days") + " ago");
-      $nodeCreatedBy.text(selectedNode.createdBy ? selectedNode.createdBy.displayName : "Anon");
-
-      $sidebar.show();
-      $multiNode.hide();
-      $singleNode.show();
+      window.UI.displayPage(selectedNode);
     }
     else
     {
-      $nodeTitle.text(selected.nodes.length + " pages");
-
-      $sidebar.show();
-      $multiNode.show();
-      $singleNode.hide();
+      var selectedNodes = [];
+      for (var i = 0; i < selected.nodes.length; i++) {
+        selectedNodes.push(spaceGraph.nodesData.get(selected.nodes[0]));
+      }
+      window.UI.displayPages(selectedNodes);
     }
   });
 
@@ -142,7 +121,6 @@ getHostJs(function ()
     for (var i = 0; i < space.rootpages.size; i++)
     {
       var page = space.rootpages.content[i];
-      $nodeTitle.text(space.name);
       crawlPage(page.id, spaceNodeId);
     }
   }

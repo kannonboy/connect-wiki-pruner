@@ -1,19 +1,42 @@
-(function ()
-{
+// stub out console for older browsers
 
-  window.console = window.console || {log: function () {}};
+(function() {
+  function noop () {}
 
-  window.getQueryParam = function (name)
-  {
+  window.console = window.console || {
+    debug: noop,
+    info: noop,
+    log: noop,
+    warn: noop,
+    error: noop
+  };
+
+})();
+
+// URI utilities
+
+(function() {
+
+  window.URI = window.URI || {};
+
+  URI.getQueryParam = function (name) {
     var match = new RegExp("(\\?|&)" + name + "=([^&]+)").exec(location.search);
     return match && decodeURIComponent(match[2]);
   };
 
-  window.getHostJs = function (callback)
+})();
+
+// Include all.js from the host
+
+(function ()
+{
+  window.ALL = window.ALL || {};
+
+  ALL.getHostJs = function (callback)
   {
 
-    var path = getQueryParam("cp");
-    var host = getQueryParam("xdm_e");
+    var path = URI.getQueryParam("cp");
+    var host = URI.getQueryParam("xdm_e");
 
     if (!(path && host))
     {
