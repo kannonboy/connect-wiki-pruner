@@ -115,6 +115,14 @@ ALL.getHostJs(function (AP)
     }
     else if (selected.nodes.length === 1)
     {
+      var selectedPage = selected.nodes[0];
+
+      if (selectedPage == 0) {
+        // root "space" node
+        UI.clearGraphPanel();
+        return;
+      }
+
       var selectedNode = graph.nodesData.get(selected.nodes[0]);
       UI.displayPage(selectedNode);
     }
