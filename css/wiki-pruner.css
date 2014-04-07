@@ -28,6 +28,11 @@
   border-radius: 6px;
 }
 
+#space-graph-message a {
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .controls {
   padding: 6px;
 }

@@ -106,8 +106,27 @@ ALL.getHostJs(function (AP)
 
   var graph = window.GRAPH.graph = new vis.Graph(container, data, options);
 
+  window.GRAPH.clearSelection = function() {
+    graph.setSelection([]);
+  };
+
+  window.GRAPH.deselect = function(pageId) {
+    var selected = graph.getSelection().nodes;
+    var index = selected.indexOf(pageId + "");
+    if (index > -1) {
+      selected.splice(index, 1);
+    }
+    graph.setSelection(selected);
+  };
+
   graph.on('select', function (selected)
   {
+    if (selected.nodes.indexOf("0") > -1) {
+      // prevent the root "space" node from ever being selected
+      GRAPH.deselect(0);
+      return;
+    }
+
     if (selected.nodes.length === 0)
     {
       // nothing
@@ -115,14 +134,6 @@ ALL.getHostJs(function (AP)
     }
     else if (selected.nodes.length === 1)
     {
-      var selectedPage = selected.nodes[0];
-
-      if (selectedPage == 0) {
-        // root "space" node
-        UI.clearGraphPanel();
-        return;
-      }
-
       var selectedNode = graph.nodesData.get(selected.nodes[0]);
       UI.displayPage(selectedNode);
     }

@@ -65,7 +65,15 @@
   });
 
   $(".move-page").on("click", function() {
-    UI.showMessage("Select a new parent page");
+    UI.clearGraphPanel();
+    var $cancelLink = $("<a class='message-cancel'>cancel</a>");
+    $message.text("Select a new parent page or ")
+            .append($cancelLink)
+            .show();
+  });
+
+  $message.on("click", ".message-cancel", function() {
+    UI.hideMessage();
   });
 
 })();
