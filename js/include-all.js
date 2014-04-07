@@ -48,7 +48,7 @@
 
     $.getScript(host + path + "/atlassian-connect/all-debug.js", function ()
     {
-      callback && callback();
+      callback && callback(window.AP);
     });
 
   };

@@ -1,4 +1,4 @@
-ALL.getHostJs(function ()
+ALL.getHostJs(function (AP)
 {
   window.GRAPH = window.GRAPH || {};
 
@@ -25,9 +25,21 @@ ALL.getHostJs(function ()
     edges: edges
   };
 
+//  AP.resize();
+
+  var graphWidth = $(window).width();
+  var graphHeight = window.outerHeight - 265;
+
+  // hack for the time being - in case window.outerHeight fails in some browsers
+  if (!graphHeight) {
+    graphHeight = 800;
+  }
+
+//  console.log("Creating graph: " + graphWidth + "x" + graphHeight);
+
   var options = {
-    width: $(window).width() + 'px',
-    height: '800px',
+    width: graphWidth + 'px',
+    height: graphHeight + 'px',
     physics: {
       barnesHut: {
         enabled: true,
