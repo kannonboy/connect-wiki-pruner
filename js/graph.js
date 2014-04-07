@@ -25,10 +25,8 @@ ALL.getHostJs(function (AP)
     edges: edges
   };
 
-//  AP.resize();
-
   var graphWidth = $(window).width();
-  var graphHeight = window.outerHeight - 265;
+  var graphHeight = window.outerHeight - 265; // magic number for header + footer - TODO expose AP. API for getting parent window height
 
   // hack for the time being - in case window.outerHeight fails in some browsers
   if (!graphHeight) {
