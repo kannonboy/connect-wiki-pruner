@@ -150,6 +150,18 @@ ALL.getHostJs(function (AP)
     customClickHandler = undefined;
   };
 
+  GRAPH.reparent = function(childId, newParentId) {
+    var child = graph.nodesData.get(childId);
+
+    // remove edge to old parent
+    graph.edgesData.remove(child.edgeToParent);
+
+    // add edge to new parent
+    var createdEdges = graph.edgesData.add({from: newParentId, to: childId});
+    child.edgeToParent = createdEdges[0];
+    graph.nodesData.update(child);
+  };
+
   graph.on('select', function (selected) {
     if (selected.nodes.indexOf("0") > -1) {
       // prevent the root "space" node from ever being selected
@@ -194,8 +206,15 @@ ALL.getHostJs(function (AP)
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children",
       success: function (response) {
         var page = JSON.parse(response);
+        // create page node
         graph.nodesData.add(generateNode(page));
-        graph.edgesData.add({from: parentId, to: page.id});
+
+        // create edge from the page to its parent
+        var createdEdges = graph.edgesData.add({from: parentId, to: page.id});
+        var pageNode = graph.nodesData.get(page.id);
+        pageNode.edgeToParent = createdEdges[0];
+        graph.nodesData.update(pageNode);
+
         for (var i = 0; i < page.children.size; i++)
         {
           var childPage = page.children.content[i];

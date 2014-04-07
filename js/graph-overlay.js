@@ -89,21 +89,24 @@
       var newParent = selectedNodes[0];
 
       for (var i = 0; i < pagesToMove.length; i++) {
-        var pageToMove = pagesToMove[i];
-        AP.request({
-          url: "/rpc/json-rpc/confluenceservice-v2/movePage",
-          contentType: "application/json",
-          type: "POST",
-          data: JSON.stringify([pageToMove.id, newParent.id, "append"]),
-          success: function (response)
-          {
-            if (JSON.parse(response) === true) {
-              console.log("Moved " + pageToMove.id + " to " + newParent.id);
-            } else {
-              console.error("Failed to move " + pageToMove.id + " to " + newParent.id + "!");
+        (function () {
+          var pageToMove = pagesToMove[i];
+          AP.request({
+            url: "/rpc/json-rpc/confluenceservice-v2/movePage",
+            contentType: "application/json",
+            type: "POST",
+            data: JSON.stringify([pageToMove.id, newParent.id, "append"]),
+            success: function (response)
+            {
+              if (JSON.parse(response) === true) {
+                console.log("Moved " + pageToMove.id + " to " + newParent.id);
+                GRAPH.reparent(pageToMove.id, newParent.id);
+              } else {
+                console.error("Failed to move " + pageToMove.id + " to " + newParent.id + "!");
+              }
             }
-          }
-        });
+          });
+        })();
       }
 
       UI.hideMessage();
