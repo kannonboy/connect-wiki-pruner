@@ -66,10 +66,49 @@
 
   $(".move-page").on("click", function() {
     UI.clearGraphPanel();
+
     var $cancelLink = $("<a class='message-cancel'>cancel</a>");
     $message.text("Select a new parent page or ")
             .append($cancelLink)
             .show();
+
+    var pagesToMove = GRAPH.getSelectedPages();
+
+    GRAPH.setClickHandler(function(selectedNodes) {
+      // make sure we've selected something
+      if (selectedNodes.length === 0 || selectedNodes[0].id === pagesToMove[0].id) {
+        return;
+      }
+
+      // don't allow selection of multiple parents - revert to the original selection
+      if (selectedNodes.length > 1) {
+        GRAPH.setSelectedPages(pagesToMove);
+        return;
+      }
+
+      var newParent = selectedNodes[0];
+
+      for (var i = 0; i < pagesToMove.length; i++) {
+        var pageToMove = pagesToMove[i];
+        AP.request({
+          url: "/rpc/json-rpc/confluenceservice-v2/movePage",
+          contentType: "application/json",
+          type: "POST",
+          data: JSON.stringify([pageToMove.id, newParent.id, "append"]),
+          success: function (response)
+          {
+            if (JSON.parse(response) === true) {
+              console.log("Moved " + pageToMove.id + " to " + newParent.id);
+            } else {
+              console.error("Failed to move " + pageToMove.id + " to " + newParent.id + "!");
+            }
+          }
+        });
+      }
+
+      UI.hideMessage();
+      GRAPH.clearClickHandler();
+    });
   });
 
   $message.on("click", ".message-cancel", function() {

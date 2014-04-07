@@ -23,5 +23,5 @@
       }
     ]
   },
-  "scopes": ["read"]
+  "scopes": ["read", "write"]
 }

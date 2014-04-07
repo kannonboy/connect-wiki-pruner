@@ -106,11 +106,32 @@ ALL.getHostJs(function (AP)
 
   var graph = window.GRAPH.graph = new vis.Graph(container, data, options);
 
-  window.GRAPH.clearSelection = function() {
+  GRAPH.getSelectedPages = function() {
+    return idsToNodes(graph.getSelection().nodes);
+  };
+
+  GRAPH.clearSelection = function() {
     graph.setSelection([]);
   };
 
-  window.GRAPH.deselect = function(pageId) {
+  GRAPH.setSelectedPages = function(selection) {
+    if (!selection) {
+      GRAPH.clearSelection();
+      return;
+    }
+
+    if ((!selection instanceof Array)) {
+      selection = [selection];
+    }
+
+    if (selection[0] instanceof Object) {
+      selection = _.pluck(selection, "id");
+    }
+
+    graph.setSelection(selection);
+  };
+
+  GRAPH.deselect = function(pageId) {
     var selected = graph.getSelection().nodes;
     var index = selected.indexOf(pageId + "");
     if (index > -1) {
@@ -119,49 +140,59 @@ ALL.getHostJs(function (AP)
     graph.setSelection(selected);
   };
 
-  graph.on('select', function (selected)
-  {
+  var customClickHandler;
+
+  GRAPH.setClickHandler = function(fn) {
+    customClickHandler = fn;
+  };
+
+  GRAPH.clearClickHandler = function() {
+    customClickHandler = undefined;
+  };
+
+  graph.on('select', function (selected) {
     if (selected.nodes.indexOf("0") > -1) {
       // prevent the root "space" node from ever being selected
       GRAPH.deselect(0);
       return;
     }
 
-    if (selected.nodes.length === 0)
-    {
+    var selectedNodes = idsToNodes(selected.nodes);
+
+    if (customClickHandler) {
+      customClickHandler(selectedNodes);
+      return;
+    }
+
+    if (selectedNodes.length === 0) {
       // nothing
       UI.clearGraphPanel();
-    }
-    else if (selected.nodes.length === 1)
-    {
-      var selectedNode = graph.nodesData.get(selected.nodes[0]);
-      UI.displayPage(selectedNode);
-    }
-    else
-    {
-      var selectedNodes = [];
-      for (var i = 0; i < selected.nodes.length; i++) {
-        selectedNodes.push(graph.nodesData.get(selected.nodes[0]));
-      }
+    } else if (selectedNodes.length === 1) {
+      UI.displayPage(selectedNodes[0]);
+    } else {
       UI.displayPages(selectedNodes);
     }
   });
 
-  function crawlSpace(space)
-  {
-    for (var i = 0; i < space.rootpages.size; i++)
-    {
+  function idsToNodes(ids) {
+    var nodes = [];
+    for (var i = 0; i < ids.length; i++) {
+      nodes.push(graph.nodesData.get(ids[0]));
+    }
+    return nodes;
+  }
+
+  function crawlSpace(space) {
+    for (var i = 0; i < space.rootpages.size; i++) {
       var page = space.rootpages.content[i];
       crawlPage(page.id, spaceNodeId);
     }
   }
 
-  function crawlPage(pageId, parentId)
-  {
+  function crawlPage(pageId, parentId) {
     AP.request({
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children",
-      success: function (response)
-      {
+      success: function (response) {
         var page = JSON.parse(response);
         graph.nodesData.add(generateNode(page));
         graph.edgesData.add({from: parentId, to: page.id});
