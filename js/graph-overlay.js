@@ -41,8 +41,11 @@
   // TOOLTIP CONTROLS
 
   $("#space-graph")
-    .on("click", ".archive-page", function() {
-      UI.showMessage("Archive it!", 2000);
+    .on("click", ".view-page", function() {
+      window.open(ALL.hostBaseUrl + "/pages/viewpage.action?pageId=" + selectedNode.id);
+    })
+    .on("click", ".edit-page", function() {
+      window.open(ALL.hostBaseUrl + "/pages/editpage.action?pageId=" + selectedNode.id);
     })
     .on("click", ".delete-page", function() {
       UI.popupsEnabled(false);

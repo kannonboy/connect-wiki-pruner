@@ -32,21 +32,22 @@
 {
   window.ALL = window.ALL || {};
 
+  var contextPath = URI.getQueryParam("cp");
+  var host = URI.getQueryParam("xdm_e");
+
+  ALL.hostBaseUrl = host && contextPath ? host + contextPath : undefined;
+
   ALL.getHostJs = function (callback)
   {
-
-    var path = URI.getQueryParam("cp");
-    var host = URI.getQueryParam("xdm_e");
-
-    if (!(path && host))
+    if (!ALL.hostBaseUrl)
     {
-      console.log("No host / path, not including all.js");
+      console.log("Host parameters missing from query string, not including all.js");
       return;
     }
 
     // TODO validate host is atlassian.net, jira-dev.com, jira.com or localhost
 
-    $.getScript(host + path + "/atlassian-connect/all-debug.js", function ()
+    $.getScript(host + contextPath + "/atlassian-connect/all-debug.js", function ()
     {
       callback && callback(window.AP);
     });
