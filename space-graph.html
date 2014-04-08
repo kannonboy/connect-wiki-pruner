@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/aui/5.4.3/aui/css/aui.css" media="all">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/aui/5.4.3/aui/css/aui-all.css" media="all">
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.min.js" media="all">
   <link rel="stylesheet" href="lib/vis/vis.css">
   <link rel="stylesheet" href="css/wiki-pruner.css">
@@ -12,21 +12,35 @@
 <section>
   <section>
     <div id="space-graph-tooltip-template">
-      <h2 class="node-title"></h2>
-      <section>
-        <label>Created: <span class="node-created"></span></label>
-        <label>by <span class="node-created-by"></span></label>
-      </section>
-      <section>
-        <label>Last updated: <span class="node-updated"></span></label>
-        <label>by <span class="node-updated-by"></span></label>
-      </section>
-      <section class="controls">
-        <span class="control view-page">View</span>
-        <span class="control edit-page">Edit</span>
-        <span class="control move-page">Move</span>
-        <span class="control delete-page">Delete</span>
-      </section>
+      <div class="space-graph-tooltip">
+        <h2 class="node-title"></h2>
+        <section>
+          <label>Created: <span class="node-created"></span></label>
+          <label>by <span class="node-created-by"></span></label>
+        </section>
+        <section>
+          <label>Last updated: <span class="node-updated"></span></label>
+          <label>by <span class="node-updated-by"></span></label>
+        </section>
+        <section class="controls">
+            <div class="control view-page">
+              <span class="aui-icon aui-icon-small aui-iconfont-view"></span>
+              View
+            </div>
+            <div class="control edit-page">
+              <span class="aui-icon aui-icon-small aui-iconfont-edit"></span>
+              Edit
+            </div>
+            <div class="control move-page">
+              <span class="aui-icon aui-icon-small aui-iconfont-devtools-arrow-right"></span>
+              Move
+            </div>
+            <div class="control delete-page">
+              <span class="aui-icon aui-icon-small aui-iconfont-remove"></span>
+              Remove
+            </div>
+        </section>
+      </div>
     </div>
     <div id="space-graph-message-container">
       <div id="space-graph-message">

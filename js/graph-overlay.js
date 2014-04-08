@@ -169,11 +169,13 @@
 
   $message.on("click", ".message-cancel-delete", function() {
     UI.hideMessage();
+    UI.popupsEnabled(true);
     GRAPH.clearClickHandler();
   });
 
   $message.on("click", ".message-cancel-move", function() {
     UI.hideMessage();
+    UI.popupsEnabled(true);
     GRAPH.clearClickHandler();
   });
 
