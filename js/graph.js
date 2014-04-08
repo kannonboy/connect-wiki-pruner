@@ -99,7 +99,7 @@ ALL.getHostJs(function (AP)
     var border = tinycolor.lighten("#205081", ageRatio);
     var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
 
-    return {
+    var node = {
       id: page.id,
       label: page.title,
       group: "page",
@@ -112,8 +112,12 @@ ALL.getHostJs(function (AP)
       updatedBy: page.lastModifier,
       createdDays: daysSince(page.createdDate.date),
       createdBy: page.creator,
-      title: "hahahahaahhahahahaahhahahahaahhahahahaahhahahahaah" + $("#space-graph-sidebar").html()
-    }
+      title: function() {
+        return UI.getTooltipHtml(node);
+      }
+    };
+
+    return node;
   }
 
   GRAPH.getSelectedPages = function() {
@@ -193,8 +197,7 @@ ALL.getHostJs(function (AP)
 
   graph.on('select', function (selected) {
     if (selected.nodes.indexOf("0") > -1) {
-      // prevent the root "space" node from ever being selected
-      GRAPH.deselect(0);
+      // prevent the root "space" node from ever being selected -- TODO support reparenting to root
       return;
     }
 
@@ -205,14 +208,7 @@ ALL.getHostJs(function (AP)
       return;
     }
 
-    if (selectedNodes.length === 0) {
-      // nothing
-      UI.clearGraphPanel();
-    } else if (selectedNodes.length === 1) {
-      UI.displayPage(selectedNodes[0]);
-    } else {
-      UI.displayPages(selectedNodes);
-    }
+    GRAPH.clearSelection();
   });
 
   function idsToNodes(ids) {
