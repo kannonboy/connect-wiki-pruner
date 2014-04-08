@@ -106,21 +106,42 @@
 
         var newParent = selectedNodes[0];
 
-        AP.request({
-          url: "/rpc/json-rpc/confluenceservice-v2/movePage",
-          contentType: "application/json",
-          type: "POST",
-          data: JSON.stringify([pageToMove.id, newParent.id, "append"]),
-          success: function (response)
-          {
-            if (JSON.parse(response) === true) {
-              console.log("Moved " + pageToMove.id + " to " + newParent.id);
-              GRAPH.reparent(pageToMove.id, newParent.id);
-            } else {
-              console.error("Failed to move " + pageToMove.id + " to " + newParent.id + "!");
+        if (newParent.id === GRAPH.getSpaceNodeId()) {
+          // reparent to space
+          AP.request({
+            url: "/rpc/json-rpc/confluenceservice-v2/movePageToTopLevel",
+            contentType: "application/json",
+            type: "POST",
+            data: JSON.stringify([pageToMove.id, spaceKey]),
+            success: function (response)
+            {
+              if (JSON.parse(response) === true) {
+                console.log("Moved " + pageToMove.id + " to top level.");
+                GRAPH.reparent(pageToMove.id, GRAPH.getSpaceNodeId());
+              } else {
+                console.error("Failed to move " + pageToMove.id + " to top level!");
+              }
             }
-          }
-        });
+          });
+        } else {
+          // reparent to another page
+          AP.request({
+            url: "/rpc/json-rpc/confluenceservice-v2/movePage",
+            contentType: "application/json",
+            type: "POST",
+            data: JSON.stringify([pageToMove.id, newParent.id, "append"]),
+            success: function (response)
+            {
+              if (JSON.parse(response) === true) {
+                console.log("Moved " + pageToMove.id + " to " + newParent.id);
+                GRAPH.reparent(pageToMove.id, newParent.id);
+              } else {
+                console.error("Failed to move " + pageToMove.id + " to " + newParent.id + "!");
+              }
+            }
+          });
+        }
+
 
         UI.hideMessage();
         UI.popupsEnabled(true);

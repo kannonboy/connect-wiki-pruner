@@ -2,7 +2,7 @@ ALL.getHostJs(function (AP)
 {
   window.GRAPH = window.GRAPH || {};
 
-  var spaceKey = URI.getQueryParam("spaceKey");
+  window.spaceKey = URI.getQueryParam("spaceKey");
 
   if (!spaceKey)
   {
@@ -196,11 +196,6 @@ ALL.getHostJs(function (AP)
   };
 
   graph.on('select', function (selected) {
-    if (selected.nodes.indexOf("0") > -1) {
-      // prevent the root "space" node from ever being selected -- TODO support reparenting to root
-      return;
-    }
-
     var selectedNodes = idsToNodes(selected.nodes);
 
     if (customClickHandler) {
