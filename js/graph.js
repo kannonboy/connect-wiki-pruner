@@ -200,10 +200,7 @@ ALL.getHostJs(function (AP)
 
     if (customClickHandler) {
       customClickHandler(selectedNodes);
-      return;
     }
-
-    GRAPH.clearSelection();
   });
 
   function idsToNodes(ids) {
