@@ -69,7 +69,13 @@ ALL.getHostJs(function (AP)
       }
     },
     tooltip: {
-      delay: 50
+      delay: 50,
+      fontColor: "black",
+      fontFace: "arial",
+      color: {
+        background: "rgba(255, 255, 255, .9)",
+        border: "#cccccc"
+      }
     }
   };
 

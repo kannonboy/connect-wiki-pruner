@@ -44,5 +44,6 @@
 }
 
 #space-graph {
-
+  border-bottom: 1px solid #cccccc;
+  background: white;
 }
