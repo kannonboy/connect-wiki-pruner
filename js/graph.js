@@ -10,10 +10,12 @@ ALL.getHostJs(function (AP)
     return;
   }
 
-  var spaceNodeId = 0;
+  GRAPH.getSpaceNodeId = function() {
+    return 0;
+  };
 
   var nodes = [
-    {id: spaceNodeId, label: spaceKey, group: "space"}
+    {id: GRAPH.getSpaceNodeId(), label: spaceKey, group: "space"}
   ];
 
   var edges = [
@@ -162,6 +164,25 @@ ALL.getHostJs(function (AP)
     graph.nodesData.update(child);
   };
 
+  GRAPH.reparentChildren = function(oldParentId, newParentId) {
+    var children = graph.nodesData.get({
+      filter: function(item) {
+        return item.edgeToParent && graph.edgesData.get(item.edgeToParent).from === oldParentId;
+      }
+    });
+
+    for (var i = 0; i < children.length; i++) {
+      var child = children[i];
+      var edge = graph.edgesData.get(child.edgeToParent);
+      edge.from = newParentId;
+      graph.edgesData.update(edge);
+    }
+  };
+
+  GRAPH.remove = function(pageId) {
+    graph.nodesData.remove(pageId);
+  };
+
   graph.on('select', function (selected) {
     if (selected.nodes.indexOf("0") > -1) {
       // prevent the root "space" node from ever being selected
@@ -197,7 +218,7 @@ ALL.getHostJs(function (AP)
   function crawlSpace(space) {
     for (var i = 0; i < space.rootpages.size; i++) {
       var page = space.rootpages.content[i];
-      crawlPage(page.id, spaceNodeId);
+      crawlPage(page.id, GRAPH.getSpaceNodeId());
     }
   }
 

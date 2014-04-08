@@ -61,13 +61,59 @@
   });
 
   $(".delete-page").on("click", function() {
-    UI.showMessage("Delete it!", 2000);
+    var pagesToDelete = GRAPH.getSelectedPages();
+
+    var messageHtml = "Delete ";
+    if (pagesToDelete.length > 1) {
+      messageHtml += pagesToDelete.length + " pages"
+    } else {
+      var pageTitle = $('<div/>').text(pagesToDelete[0].label).html(); // TODO this is a nasty way to escape
+      messageHtml += "<em>" + pageTitle + "</em>";
+    }
+
+    messageHtml += "? "
+                +  "<a class='message-confirm-delete'>Confirm</a> or "
+                +  "<a class='message-cancel-delete'>cancel</a>";
+
+    $message
+      .html(messageHtml)
+      .find(".message-confirm-delete").on("click", function() {
+        UI.hideMessage();
+        for (var i = 0; i < pagesToDelete.length; i++) {
+          (function () {
+            var pageToDelete = pagesToDelete[i];
+            AP.request({
+              url: "/rpc/json-rpc/confluenceservice-v2/removePage",
+              contentType: "application/json",
+              type: "POST",
+              data: JSON.stringify([pageToDelete.id]),
+              success: function (response)
+              {
+                if (JSON.parse(response) === true) {
+                  console.log("Deleted " + pageToDelete.id);
+                  GRAPH.reparentChildren(pageToDelete.id, GRAPH.getSpaceNodeId());
+                  GRAPH.remove(pageToDelete.id);
+                } else {
+                  console.error("Failed to delete " + pageToDelete.id + "!");
+                }
+              }
+            });
+          })();
+        }
+      });
+
+    $message.show();
+  });
+
+  $message.on("click", ".message-cancel-delete", function() {
+    UI.hideMessage();
+    GRAPH.clearClickHandler();
   });
 
   $(".move-page").on("click", function() {
     UI.clearGraphPanel();
 
-    var $cancelLink = $("<a class='message-cancel'>cancel</a>");
+    var $cancelLink = $("<a class='message-cancel-move'>cancel</a>");
     $message.text("Select a new parent page or ")
             .append($cancelLink)
             .show();
@@ -114,8 +160,9 @@
     });
   });
 
-  $message.on("click", ".message-cancel", function() {
+  $message.on("click", ".message-cancel-move", function() {
     UI.hideMessage();
+    GRAPH.clearClickHandler();
   });
 
 })();
