@@ -148,7 +148,13 @@ ALL.getHostJs(function (AP)
       var max = maxModeValues[mode];
 
       var maxRatio = 75;
-      var ratio = (value / max) * maxRatio;
+
+      var ratio;
+      if (value === 0) {
+        ratio = 0;
+      } else {
+        ratio = (value / max) * maxRatio;
+      }
 
       if (invertedModes.indexOf(mode) > -1) {
         ratio = maxRatio - ratio;
