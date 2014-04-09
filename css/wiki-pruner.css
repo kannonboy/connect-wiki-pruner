@@ -23,6 +23,14 @@
   display: inline-block;
 }
 
+.node-details .aui-icon {
+  margin-right: 2px;
+}
+
+.node-details .aui-icon.aui-iconfont-arrows-down {
+  margin-right: 0;
+}
+
 .controls .control {
   cursor: pointer;
   display: inline-block;
