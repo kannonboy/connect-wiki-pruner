@@ -60,8 +60,9 @@
         +  "<a class='message-confirm-delete'>Confirm</a> or "
         +  "<a class='message-cancel-delete'>cancel</a>";
 
+      UI.showMessage(messageHtml, 0, true);
+
       $message
-        .html(messageHtml)
         .find(".message-confirm-delete").on("click", function() {
           UI.popupsEnabled(true);
           UI.hideMessage();
@@ -82,16 +83,10 @@
             }
           });
         });
-
-      $message.show();
     })
     .on("click", ".move-page", function() {
       UI.popupsEnabled(false);
-
-      var $cancelLink = $("<a class='message-cancel-move'>cancel</a>");
-      $message.text("Select a new parent page or ")
-        .append($cancelLink)
-        .show();
+      UI.showMessage("Select a new parent page or <a class='message-cancel-move'>cancel</a>", 0, true);
 
       var pageToMove = selectedNode;
 
@@ -159,11 +154,20 @@
   var $message = $("#space-graph-message");
   $message.hide(); // start hidden
 
-  UI.showMessage = function(message, timeout) {
-    $message.text(message).show();
+  var timeoutLeft = 0;
+
+  UI.showMessage = function(message, timeout, html) {
+    $message[html ? "html" : "text"](message).show();
     if (timeout) {
-      setTimeout(UI.hideMessage, timeout);
+      timeoutLeft += timeout;
+      setTimeout(function() {
+        timeoutLeft -= timeout;
+        if (timeoutLeft < 1) {
+          UI.hideMessage();
+        }
+      }, timeout);
     }
+    $message.css("left", (($(window).width() - $message.width()) / 2) + "px"); // TODO there must be a way to do this with CSS
   };
 
   UI.hideMessage = function() {

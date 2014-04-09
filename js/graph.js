@@ -211,6 +211,8 @@ ALL.getHostJs(function (AP)
     return nodes;
   }
 
+  var pagesLoaded = 0;
+
   function crawlSpace(space) {
     graph.nodesData.update({id: GRAPH.getSpaceNodeId(), label: space.name, group: "space"});
     for (var i = 0; i < space.rootpages.size; i++) {
@@ -223,6 +225,9 @@ ALL.getHostJs(function (AP)
     AP.request({
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children",
       success: function (response) {
+
+        UI.showMessage(++pagesLoaded + " pages found", 2000);
+
         var page = JSON.parse(response);
         // create page node
         graph.nodesData.add(generateNode(page));
