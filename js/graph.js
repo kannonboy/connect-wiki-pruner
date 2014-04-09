@@ -89,36 +89,79 @@ ALL.getHostJs(function (AP)
     return Math.floor(msSince / (1000 * 60 * 60 * 24));
   }
 
-  function generateNode(page)
+  var maxModeValues = {
+    daysSinceUpdated: 0,
+    daysSinceCreated: 0,
+    attachments: 0,
+    comments: 0,
+    depth: 0
+  };
+
+  function generateNode(page, depth)
   {
-    var ageDays = daysSince(page.lastModifiedDate.date);
+    var daysSinceUpdated = daysSince(page.lastModifiedDate.date);
+    var daysSinceCreated = daysSince(page.createdDate.date);
 
-    var adjustedAgeDays = Math.max(ageDays - 90, 0); // consider the last 90 days as fresh
-    var ageRatio = Math.min((adjustedAgeDays / (365 * 3) * 50), 50); // decay for the previous 36 months 
-
-    var border = tinycolor.lighten("#205081", ageRatio);
-    var background = tinycolor.desaturate(tinycolor.lighten("#3b73af", ageRatio), ageRatio);
+    maxModeValues.daysSinceUpdated = Math.max(maxModeValues.daysSinceUpdated, daysSinceUpdated);
+    maxModeValues.daysSinceCreated = Math.max(maxModeValues.daysSinceCreated, daysSinceUpdated);
+    maxModeValues.attachments = Math.max(maxModeValues.attachments, page.attachments.size);
+    maxModeValues.comments = Math.max(maxModeValues.comments, page.comments.size);
+    maxModeValues.depth = Math.max(maxModeValues.depth, depth);
 
     var node = {
       id: page.id,
       label: page.title,
       group: "page",
       color: {
-        background: background.toHexString(),
-        border: border.toHexString()
+        background: "white",
+        border: "#707070"
       },
-      fontColor: ageRatio > 30 ? "#000000" : "#ffffff",
-      updatedDays: ageDays,
+      fontColor: "#707070",
+      daysSinceUpdated: daysSinceUpdated,
       updatedBy: page.lastModifier,
-      createdDays: daysSince(page.createdDate.date),
+      daysSinceCreated: daysSinceCreated,
       createdBy: page.creator,
       title: function() {
         return UI.getTooltipHtml(node);
-      }
+      },
+      attachments: page.attachments.size,
+      comments: page.comments.size,
+      depth: depth
     };
 
     return node;
   }
+
+  var invertedModes = ["attachments", "comments"];
+
+  GRAPH.applyColorMode = function(mode) {
+    var nodes = graph.nodesData.get();
+    for (var i = 0; i < nodes.length; i++) {
+      var node = nodes[i];
+
+      if (node.id === GRAPH.getSpaceNodeId()) {
+        // the space node doesn't have any mode data
+        continue;
+      }
+
+      var value = node[mode];
+      var max = maxModeValues[mode];
+
+      var maxRatio = 75;
+      var ratio = (value / max) * maxRatio;
+
+      if (invertedModes.indexOf(mode) > -1) {
+        ratio = maxRatio - ratio;
+      }
+
+      node.color = {
+        background: tinycolor.lighten("#205081", ratio).toHexString(),
+        border: "#707070"
+      };
+      node.fontColor = ratio > 30 ? "#000000" : "#ffffff";
+      graph.nodesData.update(node);
+    }
+  };
 
   GRAPH.getSelectedPages = function() {
     return idsToNodes(graph.getSelection().nodes);
@@ -211,26 +254,26 @@ ALL.getHostJs(function (AP)
     return nodes;
   }
 
-  var pagesLoaded = 0;
-
   function crawlSpace(space) {
     graph.nodesData.update({id: GRAPH.getSpaceNodeId(), label: space.name, group: "space"});
     for (var i = 0; i < space.rootpages.size; i++) {
       var page = space.rootpages.content[i];
-      crawlPage(page.id, GRAPH.getSpaceNodeId());
+      crawlPage(page.id, GRAPH.getSpaceNodeId(), 0);
     }
   }
 
-  function crawlPage(pageId, parentId) {
+  var pagesLoaded = 0;
+  var outstandingRequests = 0;
+
+  function crawlPage(pageId, parentId, depth) {
+    outstandingRequests++;
     AP.request({
       url: "/rest/prototype/1/content/" + pageId + ".json?expand=children",
       success: function (response) {
 
-        UI.showMessage(++pagesLoaded + " pages found", 2000);
-
         var page = JSON.parse(response);
         // create page node
-        graph.nodesData.add(generateNode(page));
+        graph.nodesData.add(generateNode(page, depth));
 
         // create edge from the page to its parent
         var createdEdges = graph.edgesData.add({from: parentId, to: page.id});
@@ -241,8 +284,16 @@ ALL.getHostJs(function (AP)
         for (var i = 0; i < page.children.size; i++)
         {
           var childPage = page.children.content[i];
-          crawlPage(childPage.id, pageId);
+          crawlPage(childPage.id, pageId, depth + 1);
         }
+
+        if (--outstandingRequests) {
+          UI.showMessage(++pagesLoaded + " pages found");
+        } else {
+          UI.showMessage(++pagesLoaded + " pages found", 2000);
+          GRAPH.applyColorMode("daysSinceUpdated");
+        }
+
       }
     });
   }

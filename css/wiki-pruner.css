@@ -50,3 +50,15 @@
   cursor: pointer;
   text-decoration: none;
 }
+
+#mode-select-container {
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  z-index: 100;
+}
+
+#mode-select-container label {
+  font-weight: bold;
+  vertical-align: middle;
+}

@@ -2,6 +2,13 @@
 
   window.UI = window.UI || {};
 
+  // MODE SELECT
+
+  $("#mode-select")
+    .on("change", function() {
+      GRAPH.applyColorMode($(this).val());
+    });
+
   // TOOLTIP
 
   var selectedNode;
@@ -22,9 +29,9 @@
     selectedNode = pageNode;
 
     $nodeTitle.text(pageNode.label);
-    $nodeUpdated.text(pageNode.updatedDays + " " + (pageNode.ageDays === 1 ? "day" : "days") + " ago");
+    $nodeUpdated.text(pageNode.daysSinceUpdated + " " + (pageNode.daysSinceUpdated === 1 ? "day" : "days") + " ago");
     $nodeUpdatedBy.text(pageNode.updatedBy ? pageNode.updatedBy.displayName : "Anon");
-    $nodeCreated.text(pageNode.createdDays + " " + (pageNode.ageDays === 1 ? "day" : "days") + " ago");
+    $nodeCreated.text(pageNode.daysSinceCreated + " " + (pageNode.daysSinceCreated === 1 ? "day" : "days") + " ago");
     $nodeCreatedBy.text(pageNode.createdBy ? pageNode.createdBy.displayName : "Anon");
     return $tooltipTemplate.clone().removeAttr("id").html();
   };
@@ -139,7 +146,6 @@
             }
           });
         }
-
 
         UI.hideMessage();
         UI.popupsEnabled(true);
