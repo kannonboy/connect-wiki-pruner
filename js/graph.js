@@ -105,7 +105,7 @@ ALL.getHostJs(function (AP)
     maxModeValues.daysSinceUpdated = Math.max(maxModeValues.daysSinceUpdated, daysSinceUpdated);
     maxModeValues.daysSinceCreated = Math.max(maxModeValues.daysSinceCreated, daysSinceUpdated);
     maxModeValues.attachments = Math.max(maxModeValues.attachments, page.attachments.size);
-    maxModeValues.comments = Math.max(maxModeValues.comments, page.comments.size);
+    maxModeValues.comments = Math.max(maxModeValues.comments, page.comments.total);
     maxModeValues.depth = Math.max(maxModeValues.depth, depth);
 
     var node = {
@@ -125,7 +125,7 @@ ALL.getHostJs(function (AP)
         return UI.getTooltipHtml(node);
       },
       attachments: page.attachments.size,
-      comments: page.comments.size,
+      comments: page.comments.total,
       depth: depth
     };
 
