@@ -23,10 +23,6 @@
   display: inline-block;
 }
 
-.controls {
-  /*padding-top: 4px;*/
-}
-
 .controls .control {
   cursor: pointer;
   display: inline-block;
