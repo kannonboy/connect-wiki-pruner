@@ -11,8 +11,20 @@
   padding: 0 5px 0 5px;
 }
 
+.node-details {
+  color: #707070;
+}
+
+.node-details > div {
+  padding: 4px;
+}
+
+.node-details div.short-stuff {
+  display: inline-block;
+}
+
 .controls {
-  padding-top: 4px;
+  /*padding-top: 4px;*/
 }
 
 .controls .control {

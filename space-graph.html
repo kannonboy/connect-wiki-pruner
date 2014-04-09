@@ -14,13 +14,31 @@
     <div id="space-graph-tooltip-template">
       <div class="space-graph-tooltip">
         <h2 class="node-title"></h2>
-        <section>
-          <label>Created: <span class="node-created"></span></label>
-          <label>by <span class="node-created-by"></span></label>
-        </section>
-        <section>
-          <label>Last updated: <span class="node-updated"></span></label>
-          <label>by <span class="node-updated-by"></span></label>
+        <section class="node-details">
+          <div title="Created">
+            <span class="aui-icon aui-icon-small aui-iconfont-add"></span>
+            <span class="node-created"></span>
+            by
+            <a class="node-created-by"></a>
+          </div>
+          <div title="Updated">
+            <span class="aui-icon aui-icon-small aui-iconfont-edit"></span>
+            <span class="node-updated"></span>
+            by
+            <a class="node-updated-by"></a>
+          </div>
+          <div title="Tree Depth" class="short-stuff">
+            <span class="aui-icon aui-icon-small aui-iconfont-arrows-down"></span>
+            <span class="node-depth"></span>
+          </div>
+          <div title="Attachments" class="short-stuff">
+            <span class="aui-icon aui-icon-small aui-iconfont-attachment"></span>
+            <span class="node-attachments"></span>
+          </div>
+          <div title="Comments" class="short-stuff">
+            <span class="aui-icon aui-icon-small aui-iconfont-comment"></span>
+            <span class="node-comments"></span>
+          </div>
         </section>
         <section class="controls">
             <div class="control view-page">
@@ -52,8 +70,8 @@
         <option value="daysSinceUpdated">Time since update</option>
         <option value="daysSinceCreated">Time since creation</option>
         <option value="depth">Depth</option>
-        <option value="comments">Comments</option>
         <option value="attachments">Attachments</option>
+        <option value="comments">Comments</option>
       </select>
     </div>
   </section>

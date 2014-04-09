@@ -20,6 +20,18 @@
   var $nodeUpdatedBy = $(".node-updated-by");
   var $nodeCreated = $(".node-created");
   var $nodeCreatedBy = $(".node-created-by");
+  var $nodeAttachments = $(".node-attachments");
+  var $nodeComments = $(".node-comments");
+  var $nodeDepth = $(".node-depth");
+
+  function formatDays(days) {
+    return days + (days === 1 ? " day" : " days") + " ago";
+  }
+
+  function populateUser($a, user) {
+    $a.text(user ? user.displayName : "Anonymous");
+    $a.attr("href", user ? ALL.hostBaseUrl + "/display/~" + user.name : "#");
+  }
 
   UI.getTooltipHtml = function(pageNode) {
     if (!UI.popupsEnabled()) {
@@ -29,10 +41,14 @@
     selectedNode = pageNode;
 
     $nodeTitle.text(pageNode.label);
-    $nodeUpdated.text(pageNode.daysSinceUpdated + " " + (pageNode.daysSinceUpdated === 1 ? "day" : "days") + " ago");
-    $nodeUpdatedBy.text(pageNode.updatedBy ? pageNode.updatedBy.displayName : "Anon");
-    $nodeCreated.text(pageNode.daysSinceCreated + " " + (pageNode.daysSinceCreated === 1 ? "day" : "days") + " ago");
-    $nodeCreatedBy.text(pageNode.createdBy ? pageNode.createdBy.displayName : "Anon");
+    $nodeUpdated.text(formatDays(pageNode.daysSinceUpdated));
+    populateUser($nodeUpdatedBy, pageNode.updatedBy);
+    $nodeCreated.text(formatDays(pageNode.daysSinceCreated));
+    populateUser($nodeCreatedBy, pageNode.createdBy);
+    $nodeAttachments.text(pageNode.attachments);
+    $nodeComments.text(pageNode.comments);
+    $nodeDepth.text(pageNode.depth);
+
     return $tooltipTemplate.clone().removeAttr("id").html();
   };
 
