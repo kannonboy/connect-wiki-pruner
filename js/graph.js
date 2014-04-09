@@ -76,8 +76,7 @@ ALL.getHostJs(function (AP)
         background: "rgba(255, 255, 255, .9)",
         border: "#cccccc"
       }
-    },
-    clustering: true
+    }
   };
 
   var graph = GRAPH.graph = new vis.Graph(container, data, options);
