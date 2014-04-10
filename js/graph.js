@@ -60,12 +60,17 @@ ALL.getHostJs(function (AP)
     groups: {
       space: {
         shape: "image",
-        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAA3NCSVQICAjb4U/gAAAAyVBMVEX///9wcHBwcHBwcHCzs7NwcHCwsLB0dHRwcHBwcHCurq6tra2Tk5NwcHCrq6twcHBwcHBwcHChoaFwcHCcnJxwcHCZmZlycnJwcHCTk5ONjY2Li4uDg4NycnJwcHD////7+/v39/fz8/Pt7e3r6+vn5+fl5eXi4uLe3t7Z2dnT09PMzMzGxsbDw8O+vr67u7u3t7ewsLClpaWhoaGZmZmUlJSTk5ORkZGLi4uJiYmDg4OBgYF/f396enp4eHh2dnZ0dHRycnJwcHDEausyAAAAQ3RSTlMAESIzRERVVVVmd3d3d4iImaq7u8zM3d3d7u7u7u7u////////////////////////////////////////////////nly5IwAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAUdEVYdENyZWF0aW9uIFRpbWUANi8xLzEzOKlF0AAAAk1JREFUSImNlX97mjAQxwOowzoGymTWrRG0tW6dW2c7V+cguXv/L6pJnEJ+oL1/4Anfz5O7+4YLIWZ0o3SCKiZp1LU+GxEkVCjp/5CvSXBG3k2lJI1D3yOe54dxKpm0bRt/KNWh11zzwrFAhr5LH1KkQ8f+gdiWhvZ6LIps2TsUTYjNxQQx8VxqlZhINjH1tN8mlxEZRHxBT0hfy0rkD1ZkHXOPU+VdRFYaUSGWPY0YIj129wvsZmYUYlOd8CY4PLy9B7a0gBni1iBCxEPfP8OTrRdA8dsgUkzl4x2wOycwyw0iQJQn4RNsHXoJzAojq7EyA+BbGzDLdaKPVPa3cukFsJDN+tMkPCrKTg3TNosj8HgkOo2cInKjmSb9OvR4i6fITkAi+rTnzRKUX4ooagLqIuiEALu1/NJ8nLMaCCgSqArbL42oasAXADKXX0s34EmAW+0v9KxKAyjnJqD8WroAX9Ww1IFj95cOQBa9Zw86cPJrYQOyrVP+qwk0/NrYgDRupB/Wpl82II/GFehVH0P4ZQHq8JGKP7gA0X4LUMebZO4fyAUcfqAesHsXUFpAl6pflEzh+W3A+DAEyAD417cApzFDrmFfXAbqQUY6JWwuA41RST4A/3kJiBvDmJCPwH+cByLjEsqAP+ZngNi6ggTxlLcC9pUls4K/qxbAdSmKykvgz6vcBPIVuK9d0d1rAPaynjeB+XrH2y52EVdTMSur3eb76rYoKlhvXiqxcBO1yGX0MinhnDGGyCWe9c7IVQxG072cyoj/pqOB9fkVP1fisutaV84AAAAASUVORK5CYII="
+        image: ALL.hostBaseUrl + "/images/logo/default-space-logo-48.png"
       },
       page: {
         shape: "box",
         color: {background: "#ebf2f9", border: "#3b73af"},
         fontColor: "#ffffff"
+      },
+      collapsed: {
+        shape: "image",
+        image: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAA3NCSVQICAjb4U/gAAAAyVBMVEX///9wcHBwcHBwcHCzs7NwcHCwsLB0dHRwcHBwcHCurq6tra2Tk5NwcHCrq6twcHBwcHBwcHChoaFwcHCcnJxwcHCZmZlycnJwcHCTk5ONjY2Li4uDg4NycnJwcHD////7+/v39/fz8/Pt7e3r6+vn5+fl5eXi4uLe3t7Z2dnT09PMzMzGxsbDw8O+vr67u7u3t7ewsLClpaWhoaGZmZmUlJSTk5ORkZGLi4uJiYmDg4OBgYF/f396enp4eHh2dnZ0dHRycnJwcHDEausyAAAAQ3RSTlMAESIzRERVVVVmd3d3d4iImaq7u8zM3d3d7u7u7u7u////////////////////////////////////////////////nly5IwAAAAlwSFlzAAALEgAACxIB0t1+/AAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAUdEVYdENyZWF0aW9uIFRpbWUANi8xLzEzOKlF0AAAAk1JREFUSImNlX97mjAQxwOowzoGymTWrRG0tW6dW2c7V+cguXv/L6pJnEJ+oL1/4Anfz5O7+4YLIWZ0o3SCKiZp1LU+GxEkVCjp/5CvSXBG3k2lJI1D3yOe54dxKpm0bRt/KNWh11zzwrFAhr5LH1KkQ8f+gdiWhvZ6LIps2TsUTYjNxQQx8VxqlZhINjH1tN8mlxEZRHxBT0hfy0rkD1ZkHXOPU+VdRFYaUSGWPY0YIj129wvsZmYUYlOd8CY4PLy9B7a0gBni1iBCxEPfP8OTrRdA8dsgUkzl4x2wOycwyw0iQJQn4RNsHXoJzAojq7EyA+BbGzDLdaKPVPa3cukFsJDN+tMkPCrKTg3TNosj8HgkOo2cInKjmSb9OvR4i6fITkAi+rTnzRKUX4ooagLqIuiEALu1/NJ8nLMaCCgSqArbL42oasAXADKXX0s34EmAW+0v9KxKAyjnJqD8WroAX9Ww1IFj95cOQBa9Zw86cPJrYQOyrVP+qwk0/NrYgDRupB/Wpl82II/GFehVH0P4ZQHq8JGKP7gA0X4LUMebZO4fyAUcfqAesHsXUFpAl6pflEzh+W3A+DAEyAD417cApzFDrmFfXAbqQUY6JWwuA41RST4A/3kJiBvDmJCPwH+cByLjEsqAP+ZngNi6ggTxlLcC9pUls4K/qxbAdSmKykvgz6vcBPIVuK9d0d1rAPaynjeB+XrH2y52EVdTMSur3eb76rYoKlhvXiqxcBO1yGX0MinhnDGGyCWe9c7IVQxG072cyoj/pqOB9fkVP1fisutaV84AAAAASUVORK5CYII=",
+        fontColor: "#707070"
       }
     },
     tooltip: {
@@ -141,6 +146,11 @@ ALL.getHostJs(function (AP)
 
       if (node.id === GRAPH.getSpaceNodeId()) {
         // the space node doesn't have any mode data
+        continue;
+      }
+
+      if (node.group === "collapsed") {
+        // we'll deal with you later
         continue;
       }
 
@@ -278,19 +288,44 @@ ALL.getHostJs(function (AP)
       success: function (response) {
 
         var page = JSON.parse(response);
-        // create page node
-        graph.nodesData.add(generateNode(page, depth));
 
-        // create edge from the page to its parent
-        var createdEdges = graph.edgesData.add({from: parentId, to: page.id});
-        var pageNode = graph.nodesData.get(page.id);
-        pageNode.edgeToParent = createdEdges[0];
-        graph.nodesData.update(pageNode);
-
-        for (var i = 0; i < page.children.size; i++)
+        if (page.children.size > 0)
         {
-          var childPage = page.children.content[i];
-          crawlPage(childPage.id, pageId, depth + 1);
+          // create page node
+          graph.nodesData.add(generateNode(page, depth));
+
+          // create edge from the page to its parent
+          var createdEdges = graph.edgesData.add({from: parentId, to: page.id});
+          var pageNode = graph.nodesData.get(page.id);
+          pageNode.edgeToParent = createdEdges[0];
+          graph.nodesData.update(pageNode);
+
+          for (var i = 0; i < page.children.size; i++)
+          {
+            var childPage = page.children.content[i];
+            crawlPage(childPage.id, pageId, depth + 1);
+          }
+        } else {
+          var collapsedId = "collapsed-" + parentId;
+          var collapsed = graph.nodesData.get(collapsedId);
+          if (!collapsed) {
+            graph.nodesData.add({
+              id: collapsedId,
+              parentId: parentId,
+              collapsed: [generateNode(page, depth)],
+              label: "1 child page",
+              group: "collapsed",
+              fontColor: "#707070"
+            });
+            graph.edgesData.add({
+              from: collapsedId,
+              to: parentId
+            });
+          } else {
+            collapsed.collapsed.push(generateNode(page, depth));
+            collapsed.label = collapsed.collapsed.length + " child pages";
+            graph.nodesData.update(collapsed);
+          }
         }
 
         if (--outstandingRequests) {
