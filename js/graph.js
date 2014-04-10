@@ -257,6 +257,14 @@ ALL.getHostJs(function (AP)
   graph.on('select', function (selected) {
     var selectedNodes = idsToNodes(selected.nodes);
 
+    for (var i = 0; i < selectedNodes.length; i++) {
+      var node = selectedNodes[i];
+      if (node.group === "collapsed") {
+        explodeCollapsedNode(node);
+        selectedNodes = selectedNodes.splice(i, 1);
+      }
+    }
+
     if (customClickHandler) {
       customClickHandler(selectedNodes);
     }
@@ -337,6 +345,20 @@ ALL.getHostJs(function (AP)
 
       }
     });
+  }
+
+  function explodeCollapsedNode(collapsedNode) {
+    GRAPH.remove(collapsedNode);
+    for (var i = 0; i < collapsedNode.collapsed.length; i++) {
+      var node = collapsedNode.collapsed[i];
+      // create edge from the page to its parent TODO refactor copy-pasta
+      graph.nodesData.add(node);
+      var createdEdges = graph.edgesData.add({from: collapsedNode.parentId, to: node.id});
+      var pageNode = graph.nodesData.get(node.id);
+      pageNode.edgeToParent = createdEdges[0];
+      graph.nodesData.update(pageNode);
+    }
+    GRAPH.applyColorMode($("#mode-select").val());
   }
 
   AP.request({
