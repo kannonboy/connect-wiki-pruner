@@ -348,15 +348,25 @@ ALL.getHostJs(function (AP)
   }
 
   function explodeCollapsedNode(collapsedNode) {
+
+    var collapsedPhysicsNode = graph.nodes[collapsedNode.id];
+
     GRAPH.remove(collapsedNode);
     for (var i = 0; i < collapsedNode.collapsed.length; i++) {
-      var node = collapsedNode.collapsed[i];
+      var collapsedChildNode = collapsedNode.collapsed[i];
+
       // create edge from the page to its parent TODO refactor copy-pasta
-      graph.nodesData.add(node);
-      var createdEdges = graph.edgesData.add({from: collapsedNode.parentId, to: node.id});
-      var pageNode = graph.nodesData.get(node.id);
+      graph.nodesData.add(collapsedChildNode);
+
+      var createdEdges = graph.edgesData.add({from: collapsedNode.parentId, to: collapsedChildNode.id});
+      var pageNode = graph.nodesData.get(collapsedChildNode.id);
       pageNode.edgeToParent = createdEdges[0];
       graph.nodesData.update(pageNode);
+
+      // move the node to near where it's parent was (with some randomness - two nodes occupying the same space cause havoc!)
+      var collapsedChildPhysicsNode = graph.nodes[collapsedChildNode.id];
+      collapsedChildPhysicsNode.x = collapsedPhysicsNode.x + 10 * Math.random();
+      collapsedChildPhysicsNode.y = collapsedPhysicsNode.y + 10 * Math.random();
     }
     GRAPH.applyColorMode($("#mode-select").val());
   }
