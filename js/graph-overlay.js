@@ -102,6 +102,7 @@
                 GRAPH.remove(pageToDelete.id);
               } else {
                 console.error("Failed to delete " + pageToDelete.id + "!");
+                UI.showMessage("You can't delete that page.", 2000);
               }
             }
           });
@@ -141,6 +142,7 @@
                 GRAPH.reparent(pageToMove.id, GRAPH.getSpaceNodeId());
               } else {
                 console.error("Failed to move " + pageToMove.id + " to top level!");
+                UI.showMessage("You can't move that page.", 2000);
               }
             }
           });
@@ -158,6 +160,7 @@
                 GRAPH.reparent(pageToMove.id, newParent.id);
               } else {
                 console.error("Failed to move " + pageToMove.id + " to " + newParent.id + "!");
+                UI.showMessage("You can't move that page.", 2000);
               }
             }
           });
@@ -179,7 +182,7 @@
   var timeoutLeft = 0;
 
   UI.showMessage = function(message, timeout, html) {
-    $message[html ? "html" : "text"](message).show();
+    $message[html ? "html" : "text"](message).stop().show();
     if (timeout) {
       timeoutLeft += timeout;
       setTimeout(function() {
