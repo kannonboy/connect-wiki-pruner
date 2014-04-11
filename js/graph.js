@@ -293,7 +293,7 @@ ALL.getHostJs(function (AP)
     graph.nodesData.update({id: GRAPH.getSpaceNodeId(), label: space.name, group: "space"});
     for (var i = 0; i < space.rootpages.size; i++) {
       var page = space.rootpages.content[i];
-      crawlPage(page.id, GRAPH.getSpaceNodeId(), 0);
+      crawlPage(page.id, GRAPH.getSpaceNodeId(), 1); // depth is one based
     }
   }
 
