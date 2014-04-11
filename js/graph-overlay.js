@@ -23,6 +23,7 @@
   var $nodeAttachments = $(".node-attachments");
   var $nodeComments = $(".node-comments");
   var $nodeDepth = $(".node-depth");
+  var $nodeChildren = $(".node-children");
 
   function formatDays(days) {
     return days + (days === 1 ? " day" : " days") + " ago";
@@ -48,8 +49,15 @@
     $nodeAttachments.text(pageNode.attachments);
     $nodeComments.text(pageNode.comments);
     $nodeDepth.text(pageNode.depth);
+    $nodeChildren.text(pageNode.children);
 
-    return $tooltipTemplate.clone().removeAttr("id").html();
+    var $tooltip = $tooltipTemplate.clone().removeAttr("id");
+
+    if (!pageNode.attachments) $tooltip.find(".attachments-container").remove();
+    if (!pageNode.comments) $tooltip.find(".comments-container").remove();
+    if (!pageNode.children) $tooltip.find(".children-container").remove();
+
+    return $tooltip.html();
   };
 
   var popupsEnabled = true;

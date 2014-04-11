@@ -31,6 +31,11 @@
   margin-right: 0;
 }
 
+.image-pages {
+  background-image: url('../image/pages.png');
+  background-size: 16px;
+}
+
 .controls .control {
   cursor: pointer;
   display: inline-block;
