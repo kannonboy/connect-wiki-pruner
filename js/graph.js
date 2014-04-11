@@ -297,8 +297,7 @@ ALL.getHostJs(function (AP)
 
         var page = JSON.parse(response);
 
-        if (page.children.size > 0)
-        {
+        if (page.children.size > 0) {
           // create page node
           graph.nodesData.add(generateNode(page, depth));
 
@@ -314,26 +313,14 @@ ALL.getHostJs(function (AP)
             crawlPage(childPage.id, pageId, depth + 1);
           }
         } else {
-          var collapsedId = "collapsed-" + parentId;
-          var collapsed = graph.nodesData.get(collapsedId);
-          if (!collapsed) {
-            graph.nodesData.add({
-              id: collapsedId,
-              parentId: parentId,
-              collapsed: [generateNode(page, depth)],
-              label: "1 child page",
-              group: "collapsed",
-              fontColor: "#707070"
-            });
-            graph.edgesData.add({
-              from: collapsedId,
-              to: parentId
-            });
+          var parent = graph.nodesData.get(parentId);
+          if (parent.group === "collapsed") {
+            parent.collapsed.push(generateNode(page, depth));
           } else {
-            collapsed.collapsed.push(generateNode(page, depth));
-            collapsed.label = collapsed.collapsed.length + " child pages";
-            graph.nodesData.update(collapsed);
+            parent.group = "collapsed";
+            parent.collapsed = [generateNode(page, depth)];
           }
+          graph.nodesData.update(parent);
         }
 
         if (--outstandingRequests) {
@@ -351,14 +338,13 @@ ALL.getHostJs(function (AP)
 
     var collapsedPhysicsNode = graph.nodes[collapsedNode.id];
 
-    GRAPH.remove(collapsedNode);
     for (var i = 0; i < collapsedNode.collapsed.length; i++) {
       var collapsedChildNode = collapsedNode.collapsed[i];
 
       // create edge from the page to its parent TODO refactor copy-pasta
       graph.nodesData.add(collapsedChildNode);
 
-      var createdEdges = graph.edgesData.add({from: collapsedNode.parentId, to: collapsedChildNode.id});
+      var createdEdges = graph.edgesData.add({from: collapsedNode.id, to: collapsedChildNode.id});
       var pageNode = graph.nodesData.get(collapsedChildNode.id);
       pageNode.edgeToParent = createdEdges[0];
       graph.nodesData.update(pageNode);
@@ -368,6 +354,11 @@ ALL.getHostJs(function (AP)
       collapsedChildPhysicsNode.x = collapsedPhysicsNode.x + 10 * Math.random();
       collapsedChildPhysicsNode.y = collapsedPhysicsNode.y + 10 * Math.random();
     }
+
+    collapsedNode.group = "page";
+    graph.nodesData.update(collapsedNode);
+
+    GRAPH.deselect(collapsedNode.id);
     GRAPH.applyColorMode($("#mode-select").val());
   }
 
