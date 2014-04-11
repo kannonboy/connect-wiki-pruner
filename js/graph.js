@@ -88,10 +88,15 @@ ALL.getHostJs(function (AP)
 
   var nowMs = new Date().getTime();
 
-  function daysSince(date)
-  {
-    var msSince = nowMs - new Date(date).getTime();
+  function daysSince(dateString) {
+    var msSince = nowMs - dateFromString(dateString).getTime();
     return Math.floor(msSince / (1000 * 60 * 60 * 24));
+  }
+
+  // adapted from http://stackoverflow.com/a/9413229/2484180
+  function dateFromString(dateString) {
+    var a = $.map(dateString.split(/[^0-9]/), function(s) { return parseInt(s, 10) });
+    return new Date(a[0], a[1] - 1 || 0, a[2] || 1, a[3] || 0, a[4] || 0, a[5] || 0, a[6] || 0);
   }
 
   var maxModeValues = {
