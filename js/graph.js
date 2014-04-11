@@ -241,6 +241,11 @@ ALL.getHostJs(function (AP)
   };
 
   GRAPH.reparentChildren = function(oldParentId, newParentId) {
+    var oldParent = graph.nodesData.get(oldParentId);
+    if (oldParent.group === "collapsed") {
+      explodeCollapsedNode(oldParent);
+    }
+
     var children = graph.nodesData.get({
       filter: function(item) {
         return item.edgeToParent && graph.edgesData.get(item.edgeToParent).from === oldParentId;
