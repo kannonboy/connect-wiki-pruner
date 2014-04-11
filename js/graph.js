@@ -4,12 +4,6 @@ ALL.getHostJs(function (AP)
 
   window.spaceKey = URI.getQueryParam("spaceKey");
 
-  if (!spaceKey)
-  {
-    console.log("No spaceKey query parameter, bailing out.");
-    return;
-  }
-
   GRAPH.getSpaceNodeId = function() {
     return 0;
   };
@@ -373,12 +367,26 @@ ALL.getHostJs(function (AP)
     GRAPH.applyColorMode($("#mode-select").val());
   }
 
-  AP.request({
-    url: "/rest/prototype/1/space/" + spaceKey + ".json?expand=rootpages",
-    success: function (response)
-    {
-      crawlSpace(JSON.parse(response));
+  if (spaceKey)
+  {
+    AP.request({
+      url: "/rest/prototype/1/space/" + spaceKey + ".json?expand=rootpages",
+      success: function (response)
+      {
+        crawlSpace(JSON.parse(response));
+      }
+    });
+  } else {
+    // do 404
+    var circleCount = 100;
+    for (var i = 1; i <= circleCount; i++) {
+      graph.nodesData.add({id: i, label: " "});
     }
-  });
+    for (var i = 1; i <= circleCount; i++) {
+      graph.edgesData.add({from: i, to: (i % circleCount) + 1});
+    }
+    graph.nodesData.remove(0);
+    UI.showMessage("There's no space here, or you're not allowed to see it.")  ;
+  }
 
 });
