@@ -386,6 +386,7 @@ ALL.getHostJs(function (AP)
       graph.edgesData.add({from: i, to: (i % circleCount) + 1});
     }
     graph.nodesData.remove(0);
+    $("#mode-select-container").hide();
     UI.showMessage("There's no space here, or you're not allowed to see it.")  ;
   }
 
